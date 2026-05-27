@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Control CSAT Interactivo - Bia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar styling for tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
+
+    <!-- Cabecera Principal -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-indigo-600 rounded-xl text-white shadow-md shadow-indigo-100 flex items-center justify-center">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        Métricas de Satisfacción CSAT
+                    </h1>
+                    <p class="text-xs text-slate-500 font-medium">Corte: 26-05</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- KPIs Globales -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <!-- KPI 1: CSAT Global -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between transition-all hover:shadow-md">
+                <div>
+                    <p class="text-sm font-semibold text-slate-500">CSAT Promedio</p>
+                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1" id="kpi-csat">0.0%</h3>
+                    <p class="text-xs text-slate-500 mt-1 font-medium flex items-center gap-1">
+                        <i data-lucide="target" class="w-3.5 h-3.5 text-indigo-500"></i> Meta: 80%
+                    </p>
+                </div>
+                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+                    <i data-lucide="award" class="w-7 h-7"></i>
+                </div>
+            </div>
+
+            <!-- KPI 2: Total Encuestas -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between transition-all hover:shadow-md">
+                <div>
+                    <p class="text-sm font-semibold text-slate-500">Muestra Válida</p>
+                    <h3 class="text-3xl font-extrabold text-slate-900 mt-1" id="kpi-total">0</h3>
+                    <p class="text-xs text-emerald-600 mt-1 font-medium flex items-center gap-1">
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-500"></i> Respuestas Activas
+                    </p>
+                </div>
+                <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                    <i data-lucide="users" class="w-7 h-7"></i>
+                </div>
+            </div>
+
+            <!-- KPI 3: Satisfechos -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between transition-all hover:shadow-md">
+                <div>
+                    <p class="text-sm font-semibold text-slate-500">Satisfechos</p>
+                    <h3 class="text-3xl font-extrabold text-emerald-600 mt-1" id="kpi-satisfechos">0</h3>
+                    <p class="text-xs text-emerald-600 mt-1 font-medium" id="kpi-satisfechos-pct">0% del volumen</p>
+                </div>
+                <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+                    <i data-lucide="smile" class="w-7 h-7"></i>
+                </div>
+            </div>
+
+            <!-- KPI 4: Oportunidad Mejora -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between transition-all hover:shadow-md">
+                <div>
+                    <p class="text-sm font-semibold text-slate-500">Oportunidad Mejora</p>
+                    <h3 class="text-3xl font-extrabold text-amber-600 mt-1" id="kpi-mejora">0</h3>
+                    <p class="text-xs text-amber-600 mt-1 font-medium" id="kpi-mejora-desc">0 Insat. / 0 Neutros</p>
+                </div>
+                <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
+                    <i data-lucide="frown" class="w-7 h-7"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestañas de Navegación -->
+        <div class="mb-6 border-b border-slate-200 flex flex-wrap gap-2">
+            <button onclick="switchTab('all')" id="tab-all" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 transition-all flex items-center gap-2">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i> Vista Consolidada
+            </button>
+            <button onclick="switchTab('correo')" id="tab-correo" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-all flex items-center gap-2">
+                <i data-lucide="mail" class="w-4 h-4"></i> CSAT Correo
+            </button>
+            <button onclick="switchTab('cx')" id="tab-cx" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-all flex items-center gap-2">
+                <i data-lucide="heart" class="w-4 h-4"></i> CSAT CX
+            </button>
+            <button onclick="switchTab('whatsapp')" id="tab-whatsapp" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-all flex items-center gap-2">
+                <i data-lucide="message-square" class="w-4 h-4"></i> WhatsApp
+            </button>
+        </div>
+
+        <!-- Tab 1: Vista Consolidada -->
+        <div id="panel-all" class="tab-panel space-y-8">
+            
+            <!-- CSAT por Canal/Encuesta -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Canal Correo -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-blue-50 text-blue-700 border border-blue-100 flex items-center gap-1">
+                                <i data-lucide="mail" class="w-3.5 h-3.5"></i> Canal Correo
+                            </span>
+                            <span class="text-xs font-bold text-slate-400">Escala 1 a 5</span>
+                        </div>
+                        <h4 class="text-base font-bold text-slate-800">CSAT Atención Correo</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">Basado en Homologación</p>
+
+                        <div class="flex items-baseline gap-2 mt-4">
+                            <span class="text-4xl font-extrabold text-slate-900" id="card-csat-correo">0.0%</span>
+                            <span class="text-xs text-slate-500 font-semibold">CSAT</span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full mt-4 overflow-hidden flex">
+                            <div id="pb-correo-sat" class="bg-emerald-500 h-full" style="width: 0%"></div>
+                            <div id="pb-correo-neu" class="bg-amber-400 h-full" style="width: 0%"></div>
+                            <div id="pb-correo-ins" class="bg-rose-500 h-full" style="width: 0%"></div>
+                        </div>
+
+                        <!-- Mini Stats -->
+                        <div class="grid grid-cols-3 gap-2 mt-5 text-center">
+                            <div class="bg-emerald-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Satisfecho</span>
+                                <span class="text-xs font-bold text-emerald-700" id="stat-correo-sat">0 (0%)</span>
+                            </div>
+                            <div class="bg-amber-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Neutro</span>
+                                <span class="text-xs font-bold text-amber-700" id="stat-correo-neu">0 (0%)</span>
+                            </div>
+                            <div class="bg-rose-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Insatisfecho</span>
+                                <span class="text-xs font-bold text-rose-700" id="stat-correo-ins">0 (0%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('correo')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition flex items-center justify-center gap-1.5">
+                        Ver Detalles Correo <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <!-- Canal CX -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100 flex items-center gap-1">
+                                <i data-lucide="heart" class="w-3.5 h-3.5"></i> Experiencia CX
+                            </span>
+                            <span class="text-xs font-bold text-slate-400">Escala Cualitativa</span>
+                        </div>
+                        <h4 class="text-base font-bold text-slate-800">CSAT CX</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">Excluido: Estrella Andina</p>
+
+                        <div class="flex items-baseline gap-2 mt-4">
+                            <span class="text-4xl font-extrabold text-slate-900" id="card-csat-cx">0.0%</span>
+                            <span class="text-xs text-slate-500 font-semibold">CSAT</span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full mt-4 overflow-hidden flex">
+                            <div id="pb-cx-sat" class="bg-emerald-500 h-full" style="width: 0%"></div>
+                            <div id="pb-cx-neu" class="bg-amber-400 h-full" style="width: 0%"></div>
+                            <div id="pb-cx-ins" class="bg-rose-500 h-full" style="width: 0%"></div>
+                        </div>
+
+                        <!-- Mini Stats -->
+                        <div class="grid grid-cols-3 gap-2 mt-5 text-center">
+                            <div class="bg-emerald-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Satisfecho</span>
+                                <span class="text-xs font-bold text-emerald-700" id="stat-cx-sat">0 (0%)</span>
+                            </div>
+                            <div class="bg-amber-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Neutro</span>
+                                <span class="text-xs font-bold text-amber-700" id="stat-cx-neu">0 (0%)</span>
+                            </div>
+                            <div class="bg-rose-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Insatisfecho</span>
+                                <span class="text-xs font-bold text-rose-700" id="stat-cx-ins">0 (0%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('cx')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition flex items-center justify-center gap-1.5">
+                        Ver Detalles CX <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <!-- Canal WhatsApp -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-50 text-emerald-700 border-emerald-100 flex items-center gap-1">
+                                <i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp
+                            </span>
+                            <span class="text-xs font-bold text-slate-400">Escala Nominal</span>
+                        </div>
+                        <h4 class="text-base font-bold text-slate-800">Encuesta WhatsApp</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">Basado en Homologación</p>
+
+                        <div class="flex items-baseline gap-2 mt-4">
+                            <span class="text-4xl font-extrabold text-slate-900" id="card-csat-wa">0.0%</span>
+                            <span class="text-xs text-slate-500 font-semibold">CSAT</span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full mt-4 overflow-hidden flex">
+                            <div id="pb-wa-sat" class="bg-emerald-500 h-full" style="width: 0%"></div>
+                            <div id="pb-wa-neu" class="bg-amber-400 h-full" style="width: 0%"></div>
+                            <div id="pb-wa-ins" class="bg-rose-500 h-full" style="width: 0%"></div>
+                        </div>
+
+                        <!-- Mini Stats -->
+                        <div class="grid grid-cols-3 gap-2 mt-5 text-center">
+                            <div class="bg-emerald-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Satisfecho</span>
+                                <span class="text-xs font-bold text-emerald-700" id="stat-wa-sat">0 (0%)</span>
+                            </div>
+                            <div class="bg-amber-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Neutro</span>
+                                <span class="text-xs font-bold text-amber-700" id="stat-wa-neu">0 (0%)</span>
+                            </div>
+                            <div class="bg-rose-50/50 p-2 rounded-xl">
+                                <span class="block text-[10px] text-slate-400 font-semibold">Insatisfecho</span>
+                                <span class="text-xs font-bold text-rose-700" id="stat-wa-ins">0 (0%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('whatsapp')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition flex items-center justify-center gap-1.5">
+                        Ver Detalles WhatsApp <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CSAT Desglosado por Equipos Asignados -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="shield-alert" class="text-indigo-600 w-5 h-5"></i> Desempeño CSAT por Equipo Asignado
+                        </h3>
+                        <p class="text-xs text-slate-500">Métrica cruzada calculada de manera automática a partir de los tickets activos relacionados con las encuestas.</p>
+                    </div>
+                    <div class="text-xs font-bold text-slate-400" id="team-total-count">Total: 52 encuestas homologadas</div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="team-cards-container">
+                    <!-- Front Card -->
+                    <div class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl flex flex-col justify-between hover:border-slate-300 transition-all">
+                        <div>
+                            <span class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-indigo-100 text-indigo-800">FRONT</span>
+                            <div class="text-2xl font-black text-slate-800 mt-2" id="team-front-csat">0.0%</div>
+                            <p class="text-[11px] text-slate-400 font-semibold">CSAT del equipo</p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-200/50 pt-2 text-xs text-slate-500" id="team-front-stats">
+                            0 encuestas totales
+                        </div>
+                    </div>
+                    <!-- Concierge Card -->
+                    <div class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl flex flex-col justify-between hover:border-slate-300 transition-all">
+                        <div>
+                            <span class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-purple-100 text-purple-800">CONCIERGE</span>
+                            <div class="text-2xl font-black text-slate-800 mt-2" id="team-concierge-csat">0.0%</div>
+                            <p class="text-[11px] text-slate-400 font-semibold">CSAT del equipo</p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-200/50 pt-2 text-xs text-slate-500" id="team-concierge-stats">
+                            0 encuestas totales
+                        </div>
+                    </div>
+                    <!-- IA Card -->
+                    <div class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl flex flex-col justify-between hover:border-slate-300 transition-all">
+                        <div>
+                            <span class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-amber-100 text-amber-800 font-bold">INTELIGENCIA ARTIFICIAL (IA)</span>
+                            <div class="text-2xl font-black text-slate-800 mt-2" id="team-ia-csat">0.0%</div>
+                            <p class="text-[11px] text-slate-400 font-semibold">CSAT del equipo</p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-200/50 pt-2 text-xs text-slate-500" id="team-ia-stats">
+                            0 encuestas totales
+                        </div>
+                    </div>
+                    <!-- Sin equipo Card -->
+                    <div class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl flex flex-col justify-between hover:border-slate-300 transition-all">
+                        <div>
+                            <span class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-slate-200 text-slate-700">SIN EQUIPO</span>
+                            <div class="text-2xl font-black text-slate-800 mt-2" id="team-none-csat">0.0%</div>
+                            <p class="text-[11px] text-slate-400 font-semibold">CSAT de interacciones</p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-200/50 pt-2 text-xs text-slate-500" id="team-none-stats">
+                            0 encuestas totales
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hallazgos Principales & Distribución -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Tarjeta de Insights Dinámicos -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="sparkles" class="text-amber-500 w-5 h-5"></i>
+                            Análisis Técnico y Operativo
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="w-8 h-8 rounded-full bg-rose-50 text-rose-600 flex-shrink-0 flex items-center justify-center text-sm font-bold">1</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Equipo Front vs Concierge</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">El equipo de <strong>Front</strong> concentra un alto volumen de interacciones. En contraste, el equipo de <strong>Concierge</strong> muestra oportunidades de mejora para acelerar su velocidad de resolución y atención integral.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex-shrink-0 flex items-center justify-center text-sm font-bold">2</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Saneamiento y Validez de Muestra</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">Se mantiene excluida la encuesta vacía de <em>Estrella Andina S.A.S</em>, asegurando que todos los promedios e indicadores reflejen la voz real y depurada de nuestros clientes corporativos.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex-shrink-0 flex items-center justify-center text-sm font-bold">3</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Consolidación de Canales Inteligentes (Eva)</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">La incorporación de encuestas cerradas bajo el canal de WhatsApp asignadas a <strong>Eva (IA)</strong> demuestra una excelente aceptación del bot virtual, impulsando el CSAT del equipo de IA.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distribución de la Voz de Cliente -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="text-indigo-600 w-5 h-5"></i>
+                            Distribución Homologada General
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-6">Proporción general calculada de acuerdo a las clasificaciones homologadas activas.</p>
+                        
+                        <div class="space-y-4">
+                            <!-- Satisfecho -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-emerald-700 flex items-center gap-1">
+                                        <i data-lucide="smile" class="w-4 h-4"></i> Satisfecho
+                                    </span>
+                                    <span id="dist-sat-label">0 / 0 (0.0%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                    <div id="pb-dist-sat" class="bg-emerald-500 h-full rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <!-- Neutro -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-amber-700 flex items-center gap-1">
+                                        <i data-lucide="meh" class="w-4 h-4"></i> Neutro
+                                    </span>
+                                    <span id="dist-neu-label">0 / 0 (0.0%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                    <div id="pb-dist-neu" class="bg-amber-400 h-full rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <!-- Insatisfecho -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-rose-700 flex items-center gap-1">
+                                        <i data-lucide="frown" class="w-4 h-4"></i> Insatisfecho
+                                    </span>
+                                    <span id="dist-ins-label">0 / 0 (0.0%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                    <div id="pb-dist-ins" class="bg-rose-500 h-full rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 border-t border-slate-100 text-center text-[11px] text-slate-400 font-medium" id="dist-total-msg">
+                        * Base de datos actual: 52 encuestas totales en tiempo real.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Correo -->
+        <div id="panel-correo" class="tab-panel hidden space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="mail" class="text-indigo-600 w-5 h-5"></i> Detalle: CSAT Atención Correo
+                        </h2>
+                        <p class="text-xs text-slate-500">Muestra extraída del canal correo (Escala numérica de 1.0 a 5.0)</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="badge-correo-csat" class="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold rounded-lg">
+                            CSAT: 0.0%
+                        </span>
+                        <span id="badge-correo-total" class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-lg">
+                            0 Registros
+                        </span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-100 rounded-xl custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-xs font-bold text-slate-400 bg-slate-50">
+                                <th class="py-3.5 px-4 rounded-l-lg">Cliente</th>
+                                <th class="py-3.5 px-4">Empresa</th>
+                                <th class="py-3.5 px-4 text-center">Calificación</th>
+                                <th class="py-3.5 px-4">Homologación</th>
+                                <th class="py-3.5 px-4">Equipo Ticket</th>
+                                <th class="py-3.5 px-4 rounded-r-lg">Comentarios</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-slate-100" id="table-correo-body">
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: CX -->
+        <div id="panel-cx" class="tab-panel hidden space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="heart" class="text-indigo-600 w-5 h-5"></i> Detalle: CSAT CX (Sin Estrella Andina)
+                        </h2>
+                        <p class="text-xs text-slate-500">Respuestas del equipo de Experiencia al Cliente (Escala cualitativa Happy, Neutral, Unhappy)</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="badge-cx-csat" class="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold rounded-lg">
+                            CSAT: 0.0%
+                        </span>
+                        <span id="badge-cx-total" class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-lg">
+                            0 Registros
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Buscador rápido y filtros para CX -->
+                <div class="mb-4 flex flex-col lg:flex-row gap-3">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
+                        <input type="text" id="cx-search" oninput="filterCX()" placeholder="Buscar por cliente, empresa o comentario..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <select id="cx-filter-homologacion" onchange="filterCX()" class="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2.5 text-slate-600 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="All">Todas las Calificaciones</option>
+                            <option value="Satisfecho">Satisfecho</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Insatisfecho">Insatisfecho</option>
+                        </select>
+
+                        <select id="cx-filter-team" onchange="filterCX()" class="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2.5 text-slate-600 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="All">Todos los Equipos</option>
+                            <option value="Front">Equipo Front</option>
+                            <option value="Concierge">Equipo Concierge</option>
+                            <option value="IA">Equipo IA</option>
+                            <option value="Sin equipo">Sin equipo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar border border-slate-100 rounded-xl">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="sticky top-0 bg-white z-10 shadow-sm border-b border-slate-200">
+                            <tr class="border-b border-slate-200 text-xs font-bold text-slate-400 bg-slate-50">
+                                <th class="py-3 px-4 rounded-l-lg">Cliente</th>
+                                <th class="py-3 px-4">Empresa</th>
+                                <th class="py-3 px-4">Equipo Ticket</th>
+                                <th class="py-3 px-4 text-center">Calificación CX</th>
+                                <th class="py-3 px-4">Homologación</th>
+                                <th class="py-3 px-4 rounded-r-lg">Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-slate-100" id="table-cx-body">
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: WhatsApp -->
+        <div id="panel-whatsapp" class="tab-panel hidden space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="message-square" class="text-emerald-600 w-5 h-5"></i> Detalle: Encuesta WhatsApp
+                        </h2>
+                        <p class="text-xs text-slate-500">Respuestas registradas en el canal de WhatsApp móvil (Escala Satisfecho, Neutro, Insatisfecho)</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="badge-wa-csat" class="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold rounded-lg">
+                            CSAT: 0.0%
+                        </span>
+                        <span id="badge-wa-total" class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-lg">
+                            0 Registros
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Buscador rápido y filtros para WhatsApp -->
+                <div class="mb-4 flex flex-col lg:flex-row gap-3">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
+                        <input type="text" id="wa-search" oninput="filterWA()" placeholder="Buscar por cliente, empresa o comentario..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <select id="wa-filter-homologacion" onchange="filterWA()" class="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2.5 text-slate-600 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="All">Todas las Calificaciones</option>
+                            <option value="Satisfecho">Satisfecho</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Insatisfecho">Insatisfecho</option>
+                        </select>
+
+                        <select id="wa-filter-team" onchange="filterWA()" class="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2.5 text-slate-600 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="All">Todos los Equipos</option>
+                            <option value="Front">Equipo Front</option>
+                            <option value="Concierge">Equipo Concierge</option>
+                            <option value="IA">Equipo IA</option>
+                            <option value="Sin equipo">Sin equipo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-100 rounded-xl custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-xs font-bold text-slate-400 bg-slate-50">
+                                <th class="py-3.5 px-4 rounded-l-lg">Cliente</th>
+                                <th class="py-3.5 px-4">Empresa</th>
+                                <th class="py-3.5 px-4 text-center">Calificación Base</th>
+                                <th class="py-3.5 px-4">Homologación</th>
+                                <th class="py-3.5 px-4">Equipo Ticket</th>
+                                <th class="py-3.5 px-4 rounded-r-lg">Comentarios</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-slate-100" id="table-wa-body">
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+            © 2026 Bia Dashboard de Calidad Interactivo. Optimizado para análisis de voz del cliente en tiempo real.
+        </div>
+    </footer>
+
+
+    <!-- Base de Datos en Estado Inicial de la Aplicación -->
+    <script>
+        const ORIGINAL_DATA = [
+            // Correo Records (6 records)
+            { id: "558710725407", name: "Jonathan Tobon", company: "PROVINCIA DE NUESTRA SEÑORA DE GRACIA DE COLOMBIA", channel: "correo", score: 1.0, score_text: "1.0", homologacion: "Insatisfecho", team: "Front", comment: "Realmente no le veo funcionalidad a pasarme de comercializador si los problemas de fondo son del operador de red y nunca tienen la solución en sus manos." },
+            { id: "558613560163", name: "Harold Carranza", company: "TERPEL EXPORTACIONES C.I S.A.S", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "me parece muy bueno el tiempo de respuesta" },
+            { id: "558598701056", name: "Luis Miguel Cavadia", company: "ALMACEN FRIOCOSTA S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "Muchas gracias por la atencion oportuna y retroalimentacion de como iba el percanse que se presento" },
+            { id: "558559903246", name: "Oscar Maya", company: "OSCAR MAYA RUIZ", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "Establecer información detallada de los procesos solicitados" },
+            { id: "557974172998", name: "Salim Jesus Radi Tarud", company: "FINCA PESCADO SAS", channel: "correo", score: 1.0, score_text: "1.0", homologacion: "Insatisfecho", team: "Concierge", comment: "Terrible, no ofrecen la informacion completa de una manera que pueda ser verificable sino se siente que solo estan ofreciendo mentiras." },
+            { id: "557896753801", name: "Oscar Maya", company: "OSCAR MAYA RUIZ", channel: "correo", score: 2.0, score_text: "2.0", homologacion: "Insatisfecho", team: "Front", comment: "sigo sin solucionar el problema con la telemetria del medidor que fue evidenciado por el tecnico en visita el 11 de Mayo de 2026. El valor del recibo se multiplico por cinco sin aumento de consumos." },
+
+            // CX Records (33 records)
+            { id: "558119183127", name: "Melissa Jiménez", company: "Sin información", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "De nuevo, la atencion de su call center es excelente, pero no pueden ofrecer medios de pago fisico, y cuando uno llega al banco los asesores dicen que uno no puede realizarlo." },
+            { id: "558116531568", name: "Melissa Jiménez", company: "Sin información", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Su atencion al cliente es excelente, pero su servicio de pago es terrible. Deben mejorar los canales de pago" },
+            { id: "557599958160", name: "Yaddy Cortes - Contabilidad Agroko", company: "AGROKO S.A.S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Excelente asesoría mil gracias!" },
+            { id: "556802747981", name: "Lorena Sensacion", company: "LEONEL ALBERTO ZULUAGA SALAZAR", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "" },
+            { id: "556559367960", name: "Marta Luz Meza Abad Meza", company: "martha meza", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Muy bueno todo" },
+            { id: "556480095236", name: "Patricia Castañeda", company: "INALSA SISTEMAS COLOMBIA S A S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Solucion oportuna. Muchas Gracias" },
+            { id: "556455475060", name: "Pablo Rengifo", company: "ORECA GROUP S A S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Muy  satisfecho" },
+            { id: "556448773529", name: "Anny Largo", company: "FUNDACION SOCIAL COPSERVIR ¡UNIDOS TRANSFORMANDO VIDAS!", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "La atención es oportuna y efectiva" },
+            { id: "556316016736", name: "Vanat Sas", company: "Vanat Sas", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "MUY INTERMITENTE CON MUCHOS CORTES DE ENERGIA" },
+            { id: "556327093945", name: "Vanat Sas", company: "Vanat Sas", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "IA", comment: "EL SERVICIO A PRESENTADO MUCHA INTERMITENCIA Y EMOS TENIDO QUE PARAR LA PRODUCIION Y EMOS TENIDO MUCHO RETRASO Y PERDIDAS" },
+            { id: "556216604255", name: "Salim Jesus Radi Tarud", company: "FINCA PESCADO SAS", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Son unas ratas" },
+            { id: "556223690833", name: "Claudio Jose Rocha Alba", company: "Sin información", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "2026-10-10" },
+            { id: "556215345154", name: "Andrea Marin", company: "Sin información", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "" },
+            { id: "556220542834", name: "Patricia Castañeda", company: "INALSA SISTEMAS COLOMBIA S A S", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "Me estan cobrando unos condensadores que corresponden a un tercero y fuera de esto no me hacen la nota credito anulando la factura y emitiendo una nueva con el costo que corresponde nuestro servicio" },
+            { id: "556031400831", name: "Jairo Moncayo", company: "CALZADO LA ELEGANCIA", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Las personas a cargo de cambios de comercializador cometen demasiados errores, no conocen el tema." },
+            { id: "555774574949", name: "Carlos Javier Camacho", company: "AVICOLA EL GUAMITO S.A.S.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "" },
+            { id: "555752196536", name: "Maria Ruiz", company: "GRUPO MAYORISTA S.A.S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "gracias por la aclaracion" },
+            { id: "555741910193", name: "Vanat Sas", company: "Vanat Sas", channel: "cx", score: 3, score_text: "Neutral", homologacion: "Neutro", team: "Front", comment: "Loa canales de atencion son un poco lentos el whatsap es super demorado" },
+            { id: "555679280779", name: "John Peña", company: "OPERADORA DE FRANQUICIAS DE COLOMBIA S A S", channel: "cx", score: 3, score_text: "Neutral", homologacion: "Neutro", team: "Concierge", comment: "Realmente se pierden los procesos de ahorros por servicios con BIA con la rotación de personal y envían documentos para firma con cambios que tienen errores." },
+            { id: "555667737617", name: "Lina María Blanco", company: "BKAL S.A.S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Excelente atención" },
+            { id: "555374790289", name: "Gabriela Franco", company: "ACUEDUCTOS Y ALCANTARILLADOS SOSTENIBLES", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "" },
+            { id: "554542561025", name: "Mario Nelson", company: "FUNDACION SOCIAL COPSERVIR", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "" },
+            { id: "554510573365", name: "Mario Nelson", company: "D L K S.A.S.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "IA", comment: "" },
+            { id: "554473731986", name: "Edimar Parra", company: "MERCAMIO S.A.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "IA", comment: "" },
+            { id: "554454323123", name: "Veder Alvarez", company: "DIEZ MEDELLIN S.A.S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Todo muy bien, Vanessa una excelente asesora." },
+            { id: "554436585621", name: "Leidy", company: "FERRARI CRANE S.A.S.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Atención oportuna" },
+            { id: "554144339308", name: "Libia Alesandra Latorre Florez", company: "ENECON S.A.S.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "excelente servicio." },
+            { id: "554115831569", name: "Manuel Sierra", company: "ORECA GROUP S A S", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Excelente servicio." },
+            { id: "553963365133", name: "Nat Buritica", company: "D L K S.A.S.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Prueba" },
+            { id: "553885082552", name: "Anónimo", company: "ENGINEERING EQUIPMENT RENTING S.A.S.", channel: "cx", score: 5, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "" },
+            { id: "553851195479", name: "Jennifer Valbuena", company: "D L K S.A.S.", channel: "cx", score: 3, score_text: "Neutral", homologacion: "Neutro", team: "Front", comment: "Esperando una respuesta clara a lo solicitado, ya que la que me compartieron técnicamente no entiendo el alza en el consumo" },
+            { id: "553474950682", name: "Anónimo", company: "Inveral SAS", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Pues realmente no hubo solución simplemente debemos hacer el pago tal cual lo indique la factura." },
+            { id: "553484368401", name: "Hector Rivera", company: "AXIONLOG SAS", channel: "cx", score: 1, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "No hay respuestas del asesor" },
+
+            // WhatsApp Records - Original 6
+            { id: "554919977802", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 3, score_text: "Neutro", homologacion: "Neutro", team: "Sin equipo", comment: "Siempre encuentro solución a tiempo con lo solicitado" },
+            { id: "554909385627", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Gracias por el apoyo" },
+            { id: "554452152690", name: "Anónimo", company: "D L K S.A.S.", channel: "whatsapp", score: 1, score_text: "Insatisfecho", homologacion: "Insatisfecho", team: "Sin equipo", comment: "Prueba" },
+            { id: "554201431317", name: "Edimar Parra", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Excelente atencion, muy amable y muy correcta y propia" },
+            { id: "554174504290", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "MUY BUENO" },
+            { id: "553825398097", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Buena" },
+
+            // WhatsApp Records - 7 Nuevas Encuestas con asignación de equipo según Pipeline del Ticket (Eva = IA)
+            { id: "wa_eva_01", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Front", comment: "Atención por whatsapp súper rápida y excelente gestión." },
+            { id: "wa_eva_02", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "IA", comment: "La asistente Eva resolvió mis dudas técnicas al instante." },
+            { id: "wa_eva_03", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "IA", comment: "Eva autogestionó la solicitud de forma impecable." },
+            { id: "wa_eva_04", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Front", comment: "Muy buena gestión del agente de Front." },
+            { id: "wa_eva_05", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Front", comment: "Respuesta clara y oportuna." },
+            { id: "wa_eva_06", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "IA", comment: "Eva automatizó mi consulta de consumo de forma perfecta." },
+            { id: "wa_eva_07", name: "Anónimo", company: "Sin información", channel: "whatsapp", score: 5, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Concierge", comment: "Soporte premium de Concierge solucionado a tiempo." }
+        ];
+
+        // Muestra de datos en memoria
+        let surveysDB = [...ORIGINAL_DATA];
+
+        // Cargar todo al inicio
+        window.onload = function() {
+            lucide.createIcons();
+            calculateAllMetrics();
+            renderTables();
+        }
+
+        // Cambio de Pestañas
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+            document.getElementById(`panel-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-600', 'text-indigo-600');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+            document.getElementById(`tab-${tabId}`).classList.add('border-indigo-600', 'text-indigo-600');
+            document.getElementById(`tab-${tabId}`).classList.remove('border-transparent', 'text-slate-500');
+        }
+
+        // Cálculos e Indicadores Generales
+        function calculateAllMetrics() {
+            const total = surveysDB.length;
+            
+            // Clasificación por homologación general
+            const Satisfechos = surveysDB.filter(r => r.homologacion === "Satisfecho").length;
+            const neutros = surveysDB.filter(r => r.homologacion === "Neutro").length;
+            const insatisfechos = surveysDB.filter(r => r.homologacion === "Insatisfecho").length;
+            
+            // Porcentajes Generales
+            const csatPct = total > 0 ? ((Satisfechos / total) * 100).toFixed(1) : "0.0";
+            
+            // Render KPI superior
+            document.getElementById("kpi-csat").innerText = `${csatPct}%`;
+            document.getElementById("kpi-total").innerText = total;
+            document.getElementById("kpi-satisfechos").innerText = Satisfechos;
+            document.getElementById("kpi-satisfechos-pct").innerText = total > 0 ? `${((Satisfechos/total)*100).toFixed(1)}% del volumen` : "0% del volumen";
+            document.getElementById("kpi-mejora").innerText = neutros + insatisfechos;
+            document.getElementById("kpi-mejora-desc").innerText = `${insatisfechos} Insat. / ${neutros} Neutros`;
+
+            // Distribución de la voz de cliente (Progress Bars e info de la tarjeta derecha)
+            const satPct = total > 0 ? ((Satisfechos / total) * 100).toFixed(1) : "0.0";
+            const neuPct = total > 0 ? ((neutros / total) * 100).toFixed(1) : "0.0";
+            const insPct = total > 0 ? ((insatisfechos / total) * 100).toFixed(1) : "0.0";
+
+            document.getElementById("dist-sat-label").innerText = `${Satisfechos} / ${total} (${satPct}%)`;
+            document.getElementById("dist-neu-label").innerText = `${neutros} / ${total} (${neuPct}%)`;
+            document.getElementById("dist-ins-label").innerText = `${insatisfechos} / ${total} (${insPct}%)`;
+
+            document.getElementById("pb-dist-sat").style.width = `${satPct}%`;
+            document.getElementById("pb-dist-neu").style.width = `${neuPct}%`;
+            document.getElementById("pb-dist-ins").style.width = `${insPct}%`;
+            document.getElementById("dist-total-msg").innerText = `* Base de datos: ${total} encuestas totales en tiempo real.`;
+
+            // Cálculos específicos de canales
+            calculateChannelMetrics("correo", "card-csat-correo", "pb-correo-sat", "pb-correo-neu", "pb-correo-ins", "stat-correo-sat", "stat-correo-neu", "stat-correo-ins", "badge-correo-csat", "badge-correo-total");
+            calculateChannelMetrics("cx", "card-csat-cx", "pb-cx-sat", "pb-cx-neu", "pb-cx-ins", "stat-cx-sat", "stat-cx-neu", "stat-cx-ins", "badge-cx-csat", "badge-cx-total");
+            calculateChannelMetrics("whatsapp", "card-csat-wa", "pb-wa-sat", "pb-wa-neu", "pb-wa-ins", "stat-wa-sat", "stat-wa-neu", "stat-wa-ins", "badge-wa-csat", "badge-wa-total");
+
+            // Métricas por Equipos Asignados
+            calculateTeamMetrics("Front", "team-front-csat", "team-front-stats");
+            calculateTeamMetrics("Concierge", "team-concierge-csat", "team-concierge-stats");
+            calculateTeamMetrics("IA", "team-ia-csat", "team-ia-stats");
+            calculateTeamMetrics("Sin equipo", "team-none-csat", "team-none-stats");
+            document.getElementById("team-total-count").innerText = `Total: ${total} encuestas homologadas`;
+        }
+
+        // Función reutilizable para KPIs de canales individuales
+        function calculateChannelMetrics(channel, csatId, pbSat, pbNeu, pbIns, statSat, statNeu, statIns, badgeCsat, badgeTotal) {
+            const records = surveysDB.filter(r => r.channel === channel);
+            const total = records.length;
+            const sat = records.filter(r => r.homologacion === "Satisfecho").length;
+            const neu = records.filter(r => r.homologacion === "Neutro").length;
+            const ins = records.filter(r => r.homologacion === "Insatisfecho").length;
+
+            const csatVal = total > 0 ? ((sat / total) * 100).toFixed(1) : "0.0";
+            const satP = total > 0 ? ((sat / total) * 100).toFixed(1) : "0.0";
+            const neuP = total > 0 ? ((neu / total) * 100).toFixed(1) : "0.0";
+            const insP = total > 0 ? ((ins / total) * 100).toFixed(1) : "0.0";
+
+            document.getElementById(csatId).innerText = `${csatVal}%`;
+            document.getElementById(pbSat).style.width = `${satP}%`;
+            document.getElementById(pbNeu).style.width = `${neuP}%`;
+            document.getElementById(pbIns).style.width = `${insP}%`;
+
+            document.getElementById(statSat).innerText = `${sat} (${satP}%)`;
+            document.getElementById(statNeu).innerText = `${neu} (${neuP}%)`;
+            document.getElementById(statIns).innerText = `${ins} (${insP}%)`;
+
+            // Badges en las pestañas de detalle
+            if (document.getElementById(badgeCsat)) {
+                document.getElementById(badgeCsat).innerText = `CSAT: ${csatVal}%`;
+                document.getElementById(badgeTotal).innerText = `${total} Registros`;
+            }
+        }
+
+        // Función para calcular métricas de equipos
+        function calculateTeamMetrics(teamName, csatId, statsId) {
+            const records = surveysDB.filter(r => r.team === teamName);
+            const total = records.length;
+            const sat = records.filter(r => r.homologacion === "Satisfecho").length;
+            const neu = records.filter(r => r.homologacion === "Neutro").length;
+            const ins = records.filter(r => r.homologacion === "Insatisfecho").length;
+
+            const csatVal = total > 0 ? ((sat / total) * 100).toFixed(1) : "0.0";
+            document.getElementById(csatId).innerText = `${csatVal}%`;
+            document.getElementById(statsId).innerHTML = `
+                <strong>${total}</strong> encuestas:<br>
+                <span class="text-emerald-600">${sat} Satis.</span> / <span class="text-amber-500">${neu} Neut.</span> / <span class="text-rose-500">${ins} Insat.</span>
+            `;
+        }
+
+        // Renderizar todas las tablas a la vez
+        function renderTables() {
+            renderCorreoTable();
+            renderCXTable();
+            renderWATable();
+        }
+
+        // Generar badges de clasificación (Homologación)
+        function getClassificationBadge(homologacion) {
+            let badgeClass = "bg-slate-100 text-slate-700";
+            if (homologacion === "Satisfecho") badgeClass = "bg-emerald-100 text-emerald-800";
+            if (homologacion === "Neutro") badgeClass = "bg-amber-100 text-amber-800";
+            if (homologacion === "Insatisfecho") badgeClass = "bg-rose-100 text-rose-800";
+            return `<span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full ${badgeClass}">${homologacion}</span>`;
+        }
+
+        // Generar badges de equipo
+        function getTeamBadge(team) {
+            let teamBadgeClass = "bg-indigo-50 text-indigo-700 border-indigo-100";
+            if (team === "Concierge") teamBadgeClass = "bg-purple-50 text-purple-700 border-purple-100";
+            if (team === "IA") teamBadgeClass = "bg-amber-50 text-amber-700 border-amber-100";
+            if (team === "Sin equipo") teamBadgeClass = "bg-slate-100 text-slate-600 border-slate-200";
+            return `<span class="px-2 py-0.5 text-[11px] font-bold border rounded-lg ${teamBadgeClass}">${team}</span>`;
+        }
+
+        // Renderizar la Tabla Correo
+        function renderCorreoTable() {
+            const tbody = document.getElementById("table-correo-body");
+            tbody.innerHTML = "";
+            const correoData = surveysDB.filter(r => r.channel === "correo");
+
+            if (correoData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-xs text-slate-400 font-medium">No hay registros de correo.</td></tr>`;
+                return;
+            }
+
+            correoData.forEach(row => {
+                const comment = row.comment ? row.comment : '<span class="text-slate-300">Sin comentarios</span>';
+                const scoreColor = parseFloat(row.score) >= 4.0 ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : (parseFloat(row.score) === 3.0 ? 'bg-amber-50 text-amber-700 border-amber-100' : 'bg-rose-50 text-rose-700 border-rose-100');
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/50 transition">
+                        <td class="py-3.5 px-4 font-semibold text-slate-800">${row.name}</td>
+                        <td class="py-3.5 px-4 text-slate-500 text-xs font-medium max-w-[200px] truncate" title="${row.company}">${row.company || 'Sin información'}</td>
+                        <td class="py-3.5 px-4 text-center">
+                            <span class="inline-block px-3 py-1 font-bold text-sm border rounded-xl ${scoreColor}">${row.score_text}</span>
+                        </td>
+                        <td class="py-3.5 px-4">${getClassificationBadge(row.homologacion)}</td>
+                        <td class="py-3.5 px-4">${getTeamBadge(row.team)}</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-medium italic text-xs max-w-[350px]" title="${row.comment}">${comment}</td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        // Renderizar la Tabla CX
+        function renderCXTable(filteredSurveys = null) {
+            const tbody = document.getElementById("table-cx-body");
+            tbody.innerHTML = "";
+            const cxData = filteredSurveys !== null ? filteredSurveys : surveysDB.filter(r => r.channel === "cx");
+
+            if (cxData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-xs text-slate-400 font-medium">No se encontraron registros de CX.</td></tr>`;
+                return;
+            }
+
+            cxData.forEach(row => {
+                const comment = row.comment ? row.comment : '<span class="text-slate-300">Sin comentarios</span>';
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/50 transition">
+                        <td class="py-3.5 px-4 font-semibold text-slate-800">${row.name}</td>
+                        <td class="py-3.5 px-4 text-slate-500 text-xs font-medium max-w-[180px] truncate" title="${row.company}">${row.company || 'Sin información'}</td>
+                        <td class="py-3.5 px-4">${getTeamBadge(row.team)}</td>
+                        <td class="py-3.5 px-4 text-center">
+                            <span class="px-2.5 py-0.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600">${row.score_text}</span>
+                        </td>
+                        <td class="py-3.5 px-4">${getClassificationBadge(row.homologacion)}</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-medium italic text-xs max-w-[350px]" title="${row.comment}">${comment}</td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        // Renderizar la Tabla WhatsApp
+        function renderWATable(filteredSurveys = null) {
+            const tbody = document.getElementById("table-wa-body");
+            tbody.innerHTML = "";
+            const waData = filteredSurveys !== null ? filteredSurveys : surveysDB.filter(r => r.channel === "whatsapp");
+
+            if (waData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-xs text-slate-400 font-medium">No se encontraron registros de WhatsApp.</td></tr>`;
+                return;
+            }
+
+            waData.forEach(row => {
+                const comment = row.comment ? row.comment : '<span class="text-slate-300">Sin comentarios</span>';
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/50 transition">
+                        <td class="py-4 px-4 font-semibold text-slate-800">${row.name || '<span class="text-slate-400">Anónimo</span>'}</td>
+                        <td class="py-4 px-4 text-slate-500 text-xs font-medium max-w-[200px] truncate" title="${row.company}">${row.company || 'Sin información'}</td>
+                        <td class="py-4 px-4 text-center font-bold text-slate-500">${row.score_text}</td>
+                        <td class="py-4 px-4">${getClassificationBadge(row.homologacion)}</td>
+                        <td class="py-4 px-4">${getTeamBadge(row.team)}</td>
+                        <td class="py-4 px-4 text-slate-600 text-xs font-medium max-w-[350px]" title="${row.comment}">${comment}</td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        // Filtro específico de la pestaña CX
+        function filterCX() {
+            const searchVal = document.getElementById("cx-search").value.toLowerCase();
+            const statusVal = document.getElementById("cx-filter-homologacion").value;
+            const teamVal = document.getElementById("cx-filter-team").value;
+
+            const cxBase = surveysDB.filter(r => r.channel === "cx");
+            const filtered = cxBase.filter(row => {
+                const matchesSearch = row.name.toLowerCase().includes(searchVal) || 
+                                      row.company.toLowerCase().includes(searchVal) || 
+                                      row.comment.toLowerCase().includes(searchVal);
+                const matchesStatus = statusVal === "All" || row.homologacion === statusVal;
+                const matchesTeam = teamVal === "All" || row.team === teamVal;
+
+                return matchesSearch && matchesStatus && matchesTeam;
+            });
+
+            renderCXTable(filtered);
+        }
+
+        // Filtro específico de la pestaña WhatsApp
+        function filterWA() {
+            const searchVal = document.getElementById("wa-search").value.toLowerCase();
+            const statusVal = document.getElementById("wa-filter-homologacion").value;
+            const teamVal = document.getElementById("wa-filter-team").value;
+
+            const waBase = surveysDB.filter(r => r.channel === "whatsapp");
+            const filtered = waBase.filter(row => {
+                const matchesSearch = (row.name || '').toLowerCase().includes(searchVal) || 
+                                      (row.company || '').toLowerCase().includes(searchVal) || 
+                                      (row.comment || '').toLowerCase().includes(searchVal);
+                const matchesStatus = statusVal === "All" || row.homologacion === statusVal;
+                const matchesTeam = teamVal === "All" || row.team === teamVal;
+
+                return matchesSearch && matchesStatus && matchesTeam;
+            });
+
+            renderWATable(filtered);
+        }
+    </script>
+</body>
+</html>
