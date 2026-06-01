@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero CSAT · Bia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface2: #f0eeea;
+  --border: rgba(0,0,0,0.08);
+  --text: #0f0e0c;
+  --text2: #6b6760;
+  --text3: #9c9890;
+  --purple: #472BEF;
+  --purple-light: rgba(71,43,239,0.08);
+  --teal: #08DDBC;
+  --teal-light: rgba(8,221,188,0.12);
+  --navy: #001035;
+  --amber: #EF9F27;
+  --red: #E24B4A;
+  --green: #08DDBC;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+}
+/* HEADER */
+.topbar {
+  background: var(--navy);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: rgba(8,221,188,0.12);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 16px; height: 16px; }
+.topbar-title { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+.topbar-sub { font-size: 12px; color: rgba(255,255,255,0.45); margin-left: auto; }
+.topbar-badge {
+  background: rgba(8,221,188,0.15);
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(8,221,188,0.25);
+}
+
+/* UPLOAD */
+.upload-wrap { padding: 2rem; max-width: 960px; margin: 0 auto; }
+.upload-zone {
+  border: 2px dashed var(--purple);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--purple-light);
+  transition: all 0.2s;
+}
+.upload-zone:hover { background: rgba(71,43,239,0.12); }
+.upload-zone.drag { background: rgba(71,43,239,0.15); border-style: solid; }
+.upload-icon {
+  width: 52px; height: 52px;
+  background: var(--purple);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+}
+.upload-icon svg { width: 24px; height: 24px; color: white; }
+.upload-zone h2 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.upload-zone p { font-size: 13px; color: var(--text2); line-height: 1.6; max-width: 440px; margin: 0 auto 1.25rem; }
+.btn-upload {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--purple);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 8px;
+  border: none; cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-upload:hover { opacity: 0.88; }
+.how-to {
+  margin-top: 2rem;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+}
+.how-to h3 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+.how-to ol { padding-left: 1.25rem; }
+.how-to li { font-size: 13px; color: var(--text2); line-height: 1.8; }
+.how-to code {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  background: var(--surface2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--purple);
+}
+
+/* DASHBOARD */
+#dashboard { display: none; padding: 1.5rem 2rem 3rem; max-width: 1060px; margin: 0 auto; }
+
+.section-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem; flex-wrap: wrap; gap: 8px;
+}
+.section-bar h2 { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filters select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 10px;
+  cursor: pointer;
+  min-width: 120px;
+}
+.filters select:focus { outline: 2px solid var(--purple); outline-offset: 1px; }
+.reset-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; color: var(--text2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.reset-btn:hover { color: var(--purple); border-color: var(--purple); }
+
+/* METRIC CARDS */
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+.metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+.metric .m-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.metric .m-val { font-size: 28px; font-weight: 600; line-height: 1; letter-spacing: -0.03em; }
+.metric .m-sub { font-size: 11px; margin-top: 5px; font-weight: 500; }
+.metric.accent { background: var(--navy); border-color: transparent; }
+.metric.accent .m-label { color: rgba(255,255,255,0.45); }
+.metric.accent .m-val { color: var(--teal); }
+.metric.accent .m-sub { color: rgba(255,255,255,0.5); }
+
+/* CHART GRID */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+}
+.chart-card.full { grid-column: 1 / -1; }
+.chart-card h3 { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+.legend { display: flex; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
+.legend b { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
+/* VERBATIMS */
+.verb-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; }
+.verb-section h3 { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+.verb-list { display: flex; flex-direction: column; gap: 7px; max-height: 320px; overflow-y: auto; padding-right: 4px; }
+.verb-list::-webkit-scrollbar { width: 4px; }
+.verb-list::-webkit-scrollbar-track { background: transparent; }
+.verb-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.verb-item {
+  background: var(--surface2);
+  border-radius: 9px;
+  padding: 0.7rem 0.9rem 0.7rem 1rem;
+  border-left: 3px solid var(--purple);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.verb-item.neg { border-left-color: var(--red); }
+.verb-item.neu { border-left-color: var(--amber); }
+.verb-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.verb-company { font-size: 11px; font-weight: 600; color: var(--text); }
+.verb-date { font-size: 11px; color: var(--text3); }
+.verb-tag {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+.tag-s { background: var(--teal-light); color: #085041; }
+.tag-n { background: rgba(239,159,39,0.12); color: #633806; }
+.tag-i { background: rgba(226,75,74,0.1); color: #791F1F; }
+.verb-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 11px;
+  color: var(--text3);
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+}
+footer span { color: var(--purple); font-weight: 500; }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .chart-grid { grid-template-columns: 1fr; }
+  .chart-card.full { grid-column: 1; }
+  #dashboard { padding: 1rem; }
+  .topbar { padding: 0 1rem; }
+  .upload-wrap { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo-mark">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M13 3L6 13h7l-2 8 9-12h-7l2-8z" fill="#08DDBC"/></svg>
+  </div>
+  <span class="topbar-title">Tablero CSAT</span>
+  <span class="topbar-badge" id="topBadge">Sin datos</span>
+  <span class="topbar-sub" id="topSub">Sube un CSV para comenzar</span>
+</div>
+
+<!-- UPLOAD STATE -->
+<div class="upload-wrap" id="uploadWrap">
+  <div class="upload-zone" id="dropzone">
+    <div class="upload-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+    </div>
+    <h2>Sube tu exportación de HubSpot</h2>
+    <p>Arrastra aquí tu archivo CSV o haz clic para seleccionarlo. Funciona con cualquier hoja: CSAT, BD CSAT, BD NPS, etc.</p>
+    <button class="btn-upload" onclick="document.getElementById('fi').click()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Seleccionar archivo CSV
+    </button>
+    <input type="file" id="fi" accept=".csv" style="display:none">
+  </div>
+
+  <div class="how-to">
+    <h3>Cómo exportar desde HubSpot / Google Sheets</h3>
+    <ol>
+      <li>Abre tu Google Sheet con la data de CSAT</li>
+      <li>Selecciona la hoja que quieres ver (ej. <code>BD CSAT 26-05</code>)</li>
+      <li>Ve a <code>Archivo → Descargar → CSV (.csv)</code></li>
+      <li>Sube ese archivo aquí — el tablero se actualiza automáticamente</li>
+    </ol>
+  </div>
+</div>
+
+<!-- DASHBOARD STATE -->
+<div id="dashboard">
+  <div class="section-bar">
+    <h2>Resumen</h2>
+    <div class="filters">
+      <select id="fEnc"><option value="">Todas las encuestas</option></select>
+      <select id="fMes"><option value="">Todos los meses</option></select>
+      <select id="fSat">
+        <option value="">Toda satisfacción</option>
+        <option>Satisfecho</option>
+        <option>Neutro</option>
+        <option>Insatisfecho</option>
+      </select>
+      <button class="reset-btn" onclick="resetFilters()">Limpiar filtros</button>
+      <button class="reset-btn" onclick="document.getElementById('fi2').click()">↑ Nuevo CSV</button>
+      <input type="file" id="fi2" accept=".csv" style="display:none">
+    </div>
+  </div>
+
+  <div class="metrics" id="metricsGrid"></div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3>Distribución CSAT</h3>
+      <div class="legend">
+        <span><b style="background:#08DDBC"></b>Satisfecho</span>
+        <span><b style="background:#EF9F27"></b>Neutro</span>
+        <span><b style="background:#E24B4A"></b>Insatisfecho</span>
+      </div>
+      <div style="position:relative;height:210px"><canvas id="cDonut" role="img" aria-label="Distribución CSAT por satisfacción"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Tendencia mensual</h3>
+      <div class="legend">
+        <span><b style="background:#08DDBC"></b>Satisfecho</span>
+        <span><b style="background:#EF9F27;opacity:0.7"></b>Neutro</span>
+        <span><b style="background:#E24B4A;opacity:0.7"></b>Insatisfecho</span>
+      </div>
+      <div style="position:relative;height:210px"><canvas id="cLine" role="img" aria-label="Tendencia mensual"></canvas></div>
+    </div>
+    <div class="chart-card full">
+      <h3>% CSAT y volumen por tipo de encuesta</h3>
+      <div class="legend">
+        <span><b style="background:#472BEF"></b>% CSAT (eje izq.)</span>
+        <span><b style="background:rgba(8,221,188,0.5)"></b>Respuestas (eje der.)</span>
+      </div>
+      <div style="position:relative;height:260px"><canvas id="cBar" role="img" aria-label="CSAT por tipo de encuesta"></canvas></div>
+    </div>
+  </div>
+
+  <div class="verb-section">
+    <h3>Comentarios · Verbatims</h3>
+    <div class="verb-list" id="vList"></div>
+  </div>
+
+  <footer>Tablero CSAT · <span>Bia Energy</span> · Generado automáticamente desde exportación HubSpot</footer>
+</div>
+
+<script>
+let allRows = [];
+let charts = {};
+
+function splitLine(line) {
+  const res = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (inQ && line[i+1] === '"') { cur += '"'; i++; } else inQ = !inQ; }
+    else if (c === ',' && !inQ) { res.push(cur); cur = ''; }
+    else cur += c;
+  }
+  res.push(cur);
+  return res;
+}
+
+function parseCSV(txt) {
+  const lines = txt.replace(/\r/g, '').split('\n').filter(l => l.trim());
+  if (!lines.length) return [];
+  const headers = splitLine(lines[0]).map(h => h.replace(/^"|"$/g, '').trim().toLowerCase());
+  return lines.slice(1).map(l => {
+    const vals = splitLine(l).map(v => v.replace(/^"|"$/g, '').trim());
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+    return obj;
+  });
+}
+
+function norm(s) { return (s || '').toLowerCase().trim(); }
+
+function mapSat(s) {
+  s = norm(s);
+  if (s.includes('insatisfecho')) return 'Insatisfecho';
+  if (s.includes('satisfecho')) return 'Satisfecho';
+  if (s.includes('neutro')) return 'Neutro';
+  if (s === 'promotor' || s === 'promoter' || s === 'happy') return 'Satisfecho';
+  if (s === 'detractor' || s === 'unhappy') return 'Insatisfecho';
+  if (s === 'neutro' || s === 'passive' || s === 'neutral') return 'Neutro';
+  return null;
+}
+
+function getSat(row) {
+  // 1. Homologación — columna principal
+  let v = row['homologación'] || row['homologacion'] || '';
+  if (v.trim()) { const r = mapSat(v); if (r) return r; }
+  // 2. Satisfacción
+  v = row['satisfacción'] || row['satisfaccion'] || '';
+  if (v.trim()) { const r = mapSat(v); if (r) return r; }
+  // 3. Sentiment HubSpot
+  v = row['sentiment'] || row['feedback sentiment'] || '';
+  if (v.trim()) { const r = mapSat(v); if (r) return r; }
+  // 4. Rating numérico
+  const r = parseFloat(row['rating'] || row['calificación encuesta csat'] || '');
+  if (!isNaN(r)) {
+    if (r >= 9 || r >= 1.8) return 'Satisfecho';
+    if (r >= 7 || r >= 1.0) return 'Neutro';
+    if (r >= 0) return 'Insatisfecho';
+  }
+  return null;
+}
+
+function getEnc(row) {
+  return (row['nombre de la encuesta'] || row['survey name'] || row['submission name'] || '')
+    .replace(/^mvp /i, '').replace(/ - .*/g, '').trim();
+}
+
+function getMes(row) {
+  const raw = row['mes'] || row['date'] || row['object create date/time'] || '';
+  if (!raw) return '';
+  const mapa = {1:'Ene',2:'Feb',3:'Mar',4:'Abr',5:'May',6:'Jun',7:'Jul',8:'Ago',9:'Sep',10:'Oct',11:'Nov',12:'Dic'};
+  const n = parseInt(raw);
+  if (!isNaN(n) && n >= 1 && n <= 12) return mapa[n];
+  const d = new Date(raw);
+  if (!isNaN(d)) return mapa[d.getMonth() + 1] + ' ' + d.getFullYear();
+  return raw;
+}
+
+function getVerb(row) {
+  return row['verbating'] || row['verbatim'] || row['response'] || row['recomendaciones cx'] ||
+    row['¿qué es lo que más te gustó del proceso?'] || row['observación de la llamada'] || '';
+}
+function getCo(row) { return row['company name'] || ''; }
+
+function applyFilters() {
+  const enc = document.getElementById('fEnc').value;
+  const mes = document.getElementById('fMes').value;
+  const sat = document.getElementById('fSat').value;
+  return allRows.filter(r => {
+    if (enc && getEnc(r) !== enc) return false;
+    if (mes && getMes(r) !== mes) return false;
+    if (sat) { const s = getSat(r); if (s !== sat) return false; }
+    return true;
+  });
+}
+
+function dc(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
+
+function render() {
+  const rows = applyFilters();
+  const wS = rows.filter(r => getSat(r));
+  const sat = wS.filter(r => getSat(r) === 'Satisfecho').length;
+  const neu = wS.filter(r => getSat(r) === 'Neutro').length;
+  const ins = wS.filter(r => getSat(r) === 'Insatisfecho').length;
+  const total = wS.length;
+  const pct = total > 0 ? Math.round(sat / total * 100) : 0;
+  const metaOk = pct >= 80;
+
+  document.getElementById('topBadge').textContent = pct + '% CSAT';
+  document.getElementById('topBadge').style.color = metaOk ? '#08DDBC' : '#E24B4A';
+  document.getElementById('topSub').textContent = total + ' respuestas calificadas';
+
+  document.getElementById('metricsGrid').innerHTML = `
+    <div class="metric accent">
+      <div class="m-label">Score CSAT</div>
+      <div class="m-val">${pct}%</div>
+      <div class="m-sub">${metaOk ? '✓ Meta 80% cumplida' : '✗ Meta: 80%'}</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Total respuestas</div>
+      <div class="m-val" style="color:var(--text)">${rows.length}</div>
+      <div class="m-sub" style="color:var(--text3)">${total} calificadas</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Satisfechos</div>
+      <div class="m-val" style="color:#08DDBC">${sat}</div>
+      <div class="m-sub" style="color:#08DDBC">${total > 0 ? Math.round(sat/total*100) : 0}%</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Neutros</div>
+      <div class="m-val" style="color:#EF9F27">${neu}</div>
+      <div class="m-sub" style="color:#EF9F27">${total > 0 ? Math.round(neu/total*100) : 0}%</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Insatisfechos</div>
+      <div class="m-val" style="color:#E24B4A">${ins}</div>
+      <div class="m-sub" style="color:#E24B4A">${total > 0 ? Math.round(ins/total*100) : 0}%</div>
+    </div>
+  `;
+
+  // Dona
+  dc('donut');
+  charts['donut'] = new Chart(document.getElementById('cDonut'), {
+    type: 'doughnut',
+    data: { labels: ['Satisfecho','Neutro','Insatisfecho'], datasets: [{ data: [sat, neu, ins], backgroundColor: ['#08DDBC','#EF9F27','#E24B4A'], borderWidth: 3, borderColor: '#ffffff' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} (${total > 0 ? Math.round(ctx.raw/total*100) : 0}%)` } } } }
+  });
+
+  // Línea mensual
+  const mMap = {};
+  rows.forEach(r => {
+    const m = getMes(r); if (!m) return;
+    if (!mMap[m]) mMap[m] = { s:0, n:0, i:0 };
+    const s = getSat(r);
+    if (s === 'Satisfecho') mMap[m].s++;
+    else if (s === 'Neutro') mMap[m].n++;
+    else if (s === 'Insatisfecho') mMap[m].i++;
+  });
+  const mLabs = Object.keys(mMap);
+  dc('line');
+  charts['line'] = new Chart(document.getElementById('cLine'), {
+    type: 'line',
+    data: { labels: mLabs, datasets: [
+      { label: 'Satisfecho', data: mLabs.map(m => mMap[m].s), borderColor: '#08DDBC', backgroundColor: 'rgba(8,221,188,0.1)', tension: 0.35, fill: true, pointRadius: 4, pointBackgroundColor: '#08DDBC', borderWidth: 2 },
+      { label: 'Neutro', data: mLabs.map(m => mMap[m].n), borderColor: '#EF9F27', backgroundColor: 'rgba(239,159,39,0.07)', tension: 0.35, fill: true, pointRadius: 3, pointBackgroundColor: '#EF9F27', borderDash: [5,3], borderWidth: 1.5 },
+      { label: 'Insatisfecho', data: mLabs.map(m => mMap[m].i), borderColor: '#E24B4A', backgroundColor: 'rgba(226,75,74,0.07)', tension: 0.35, fill: true, pointRadius: 3, pointBackgroundColor: '#E24B4A', borderDash: [3,3], borderWidth: 1.5 }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 11 }, color: '#9c9890' }, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { ticks: { font: { size: 10 }, color: '#9c9890', maxRotation: 45 }, grid: { display: false } } } }
+  });
+
+  // Barras por encuesta
+  const eMap = {};
+  rows.forEach(r => {
+    const e = getEnc(r); if (!e) return;
+    if (!eMap[e]) eMap[e] = { s:0, t:0 };
+    eMap[e].t++;
+    if (getSat(r) === 'Satisfecho') eMap[e].s++;
+  });
+  const eLabs = Object.keys(eMap).filter(e => eMap[e].t > 0).sort((a,b) => eMap[b].t - eMap[a].t).slice(0, 10);
+  dc('bar');
+  charts['bar'] = new Chart(document.getElementById('cBar'), {
+    type: 'bar',
+    data: { labels: eLabs, datasets: [
+      { label: '% CSAT', data: eLabs.map(e => eMap[e].t > 0 ? Math.round(eMap[e].s/eMap[e].t*100) : 0), backgroundColor: '#472BEF', borderRadius: 5, yAxisID: 'y' },
+      { label: 'Respuestas', data: eLabs.map(e => eMap[e].t), backgroundColor: 'rgba(8,221,188,0.4)', borderRadius: 5, yAxisID: 'y1' }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v+'%', font: { size: 11 }, color: '#9c9890' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+      y1: { beginAtZero: true, position: 'right', ticks: { font: { size: 11 }, color: '#9c9890' }, grid: { display: false } },
+      x: { ticks: { font: { size: 10 }, color: '#9c9890', maxRotation: 40, autoSkip: false }, grid: { display: false } }
+    }}
+  });
+
+  // Verbatims
+  const vRows = rows.filter(r => getVerb(r) && getVerb(r).length > 5).slice(0, 30);
+  const vList = document.getElementById('vList');
+  if (!vRows.length) { vList.innerHTML = '<div style="font-size:13px;color:#9c9890;padding:0.5rem">Sin comentarios en la selección actual</div>'; return; }
+  vList.innerHTML = vRows.map(r => {
+    const s = getSat(r);
+    const cls = s === 'Insatisfecho' ? 'neg' : s === 'Neutro' ? 'neu' : '';
+    const tag = s === 'Satisfecho' ? '<span class="verb-tag tag-s">Satisfecho</span>' :
+                s === 'Insatisfecho' ? '<span class="verb-tag tag-i">Insatisfecho</span>' :
+                s === 'Neutro' ? '<span class="verb-tag tag-n">Neutro</span>' : '';
+    return `<div class="verb-item ${cls}">
+      <div class="verb-meta"><span class="verb-company">${getCo(r) || 'Sin empresa'}</span>${tag}<span class="verb-date">${getMes(r)}</span></div>
+      <div class="verb-text">${getVerb(r)}</div>
+    </div>`;
+  }).join('');
+}
+
+function loadData(rows) {
+  allRows = rows.filter(r => getSat(r) || getVerb(r));
+  const encs = [...new Set(allRows.map(r => getEnc(r)).filter(Boolean))].sort();
+  const meses = [...new Set(allRows.map(r => getMes(r)).filter(Boolean))];
+  const sE = document.getElementById('fEnc');
+  const sM = document.getElementById('fMes');
+  sE.innerHTML = '<option value="">Todas las encuestas</option>';
+  sM.innerHTML = '<option value="">Todos los meses</option>';
+  encs.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e; sE.appendChild(o); });
+  meses.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; sM.appendChild(o); });
+  document.getElementById('uploadWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('topBadge').style.display = 'inline-block';
+  render();
+}
+
+function resetFilters() {
+  document.getElementById('fEnc').value = '';
+  document.getElementById('fMes').value = '';
+  document.getElementById('fSat').value = '';
+  render();
+}
+
+function handleFile(file) {
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => loadData(parseCSV(ev.target.result));
+  r.readAsText(file, 'UTF-8');
+}
+
+document.getElementById('fi').addEventListener('change', e => handleFile(e.target.files[0]));
+document.getElementById('fi2').addEventListener('change', e => handleFile(e.target.files[0]));
+['fEnc','fMes','fSat'].forEach(id => document.getElementById(id).addEventListener('change', render));
+
+const dz = document.getElementById('dropzone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); handleFile(e.dataTransfer.files[0]); });
+</script>
+</body>
+</html>
