@@ -58,23 +58,30 @@
     <!-- Header Corporativo BIA -->
     <header class="bg-[#001035] text-white sticky top-0 z-30 shadow-md border-b border-indigo-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <!-- Logotipo Isotipo de Bia (Rayo en Turquesa) -->
-                <div class="p-2.5 bg-[#472BEF] rounded-xl text-[#08DDBC] shadow-lg shadow-indigo-900/40 flex items-center justify-center animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path d="M11.644 1.155a.75.75 0 01.442.253l8.25 9a.75.75 0 01-.529 1.236H13.5l2.1 9.45a.75.75 0 01-1.295.648l-8.25-9A.75.75 0 016.58 11.5H12l-2.1-9.45a.75.75 0 01.353-.787.75.75 0 011.39.892z" />
-                    </svg>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl font-black tracking-tight text-white">bia</span>
-                        <span class="text-xs uppercase tracking-widest text-[#08DDBC] font-extrabold px-1.5 py-0.5 bg-[#472BEF]/30 rounded">CX</span>
+            <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+                <div class="flex items-center gap-3">
+                    <!-- Logotipo Isotipo de Bia (Rayo en Turquesa) -->
+                    <div class="p-2.5 bg-[#472BEF] rounded-xl text-[#08DDBC] shadow-lg shadow-indigo-900/40 flex items-center justify-center animate-pulse">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path d="M11.644 1.155a.75.75 0 01.442.253l8.25 9a.75.75 0 01-.529 1.236H13.5l2.1 9.45a.75.75 0 01-1.295.648l-8.25-9A.75.75 0 016.58 11.5H12l-2.1-9.45a.75.75 0 01.353-.787.75.75 0 011.39.892z" />
+                        </svg>
                     </div>
-                    <p class="text-[10px] text-[#DEDEF9] font-medium tracking-wide">Métricas de Satisfacción CSAT — Corte: 31-05</p>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl font-black tracking-tight text-white">bia</span>
+                            <span class="text-xs uppercase tracking-widest text-[#08DDBC] font-extrabold px-1.5 py-0.5 bg-[#472BEF]/30 rounded">CX</span>
+                        </div>
+                        <p class="text-[10px] text-[#DEDEF9] font-medium tracking-wide">Métricas de Satisfacción CSAT — Corte: 31-05</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
+                <!-- Botón de Guardado Dinámico Permanente -->
+                <button onclick="exportUpdatedHTML()" class="text-xs font-black px-4 py-2 rounded-xl bg-[#08DDBC] text-[#001035] hover:bg-[#08DDBC]/85 transition-all flex items-center gap-1.5 shadow-md shadow-emerald-950/20 active:scale-95">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    Guardar Cambios (Descargar HTML)
+                </button>
                 <span class="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-500/10 text-[#08DDBC] border border-[#08DDBC]/30 flex items-center gap-1">
                     <span class="w-1.5 h-1.5 bg-[#08DDBC] rounded-full animate-ping"></span>
                     Estrella Andina Excluida
@@ -306,7 +313,7 @@
                 </div>
             </div>
 
-            <!-- Card: Desempeño por Equipo Asignado (Updated to dynamic 5-column layout reflecting Bia colors) -->
+            <!-- Card: Desempeño por Equipo Asignado -->
             <div class="bg-white rounded-2xl border border-[#DEDEF9] p-6 shadow-sm">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <div>
@@ -377,43 +384,54 @@
                 </div>
             </div>
 
-            <!-- Card: Dynamic Ranking & Performance (With CSAT / Volume Toggle Switch) -->
+            <!-- Card: Dual Dynamic Ranking & Performance (FRONT VS CONCIERGE SIMULTANEOUS VIEWS) -->
             <div class="bg-white rounded-2xl border border-[#DEDEF9] p-6 shadow-sm space-y-6 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-[#472BEF] to-[#08DDBC]"></div>
                 
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-4 border-b border-[#DEDEF9]">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-[#DEDEF9]">
                     <div class="pl-2">
                         <h3 class="text-lg font-bold text-[#001035] flex items-center gap-2">
-                            <i data-lucide="award" class="text-[#472BEF] w-5 h-5"></i> Escalafón y Rendimiento por Asesor
+                            <i data-lucide="award" class="text-[#472BEF] w-5 h-5"></i> Desempeño de Asesores: Front vs. Concierge
                         </h3>
-                        <p class="text-xs text-[#525A72]">Distribución de CSAT %, volumen de tickets procesados e índice de satisfacción neto.</p>
+                        <p class="text-xs text-[#525A72]">Resultados discriminados en tiempo real según el equipo operativo asignado.</p>
                     </div>
                     
-                    <!-- Controls Container (Sort Selectors + Search Bar) -->
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
-                        <!-- Dual Sort Selectors -->
-                        <div class="flex items-center gap-1 bg-slate-100 p-1.5 rounded-xl border border-[#DEDEF9] self-start sm:self-auto">
-                            <button onclick="changeAgentSort('csat')" id="btn-sort-csat" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 flex items-center gap-1 bg-[#472BEF] text-white shadow-sm">
-                                <i data-lucide="percent" class="w-3.5 h-3.5"></i> Por CSAT %
-                            </button>
-                            <button onclick="changeAgentSort('volume')" id="btn-sort-volume" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 flex items-center gap-1 text-[#525A72] hover:text-[#001035]">
-                                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Por Volumen
-                            </button>
-                        </div>
-
-                        <!-- Search Input inside card -->
-                        <div class="relative flex-1 sm:w-64">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[#525A72]">
-                                <i data-lucide="search" class="w-4 h-4"></i>
-                            </span>
-                            <input type="text" id="agent-search" oninput="calculateAgentMetrics()" placeholder="Buscar asesor en el ranking..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-[#DEDEF9] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#472BEF] outline-none transition-all font-semibold">
-                        </div>
+                    <!-- Search Input (Filters both rankings in real-time) -->
+                    <div class="relative w-full md:w-80">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </span>
+                        <input type="text" id="agent-search" oninput="calculateAgentMetrics()" placeholder="Buscar asesor en ambos equipos..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-[#DEDEF9] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#472BEF] outline-none transition-all font-semibold">
                     </div>
                 </div>
 
-                <!-- Rankings Target Container -->
-                <div class="grid grid-cols-1 gap-4 pl-2" id="agent-ranking-container">
-                    <!-- JS populated cards with proportional color distributions -->
+                <!-- Grid layout for Side-by-Side Dual Teams -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Column 1: FRONT Team -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2 pl-2">
+                            <h4 class="text-xs font-black uppercase tracking-wider text-[#472BEF] flex items-center gap-1.5">
+                                <i data-lucide="users" class="w-4 h-4 text-[#08DDBC]"></i> Asesores FRONT
+                            </h4>
+                            <span class="text-[10px] text-[#525A72] font-semibold" id="front-team-summary-label">0 asesores</span>
+                        </div>
+                        <div class="space-y-3" id="front-team-container">
+                            <!-- JS dynamic cards populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Column 2: CONCIERGE Team -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2 pl-2">
+                            <h4 class="text-xs font-black uppercase tracking-wider text-[#001035] flex items-center gap-1.5">
+                                <i data-lucide="users" class="w-4 h-4 text-[#472BEF]"></i> Asesores CONCIERGE
+                            </h4>
+                            <span class="text-[10px] text-[#525A72] font-semibold" id="concierge-team-summary-label">0 asesores</span>
+                        </div>
+                        <div class="space-y-3" id="concierge-team-container">
+                            <!-- JS dynamic cards populated here -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -541,20 +559,21 @@
                     </div>
                 </div>
 
-                <div class="overflow-x-auto border border-slate-100 rounded-xl custom-scrollbar">
+                <div class="overflow-x-auto border border-[#DEDEF9]/30 rounded-xl custom-scrollbar">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-200 text-xs font-bold text-[#525A72] bg-slate-50">
+                            <tr class="border-b border-[#DEDEF9] text-xs font-bold text-[#525A72] bg-slate-50">
                                 <th class="py-3.5 px-4 rounded-l-lg">Cliente</th>
                                 <th class="py-3.5 px-4">Empresa</th>
                                 <th class="py-3.5 px-4">Agente (Owner)</th>
                                 <th class="py-3.5 px-4 text-center">Calificación</th>
                                 <th class="py-3.5 px-4">Homologación</th>
                                 <th class="py-3.5 px-4 text-center">Equipo Ticket</th>
-                                <th class="py-3.5 px-4 rounded-r-lg">Comentarios</th>
+                                <th class="py-3.5 px-4">Comentarios</th>
+                                <th class="py-3.5 px-4 rounded-r-lg text-center">Link</th>
                             </tr>
                         </thead>
-                        <tbody class="text-sm divide-y divide-slate-100" id="table-correo-body">
+                        <tbody class="text-sm divide-y divide-[#DEDEF9]" id="table-correo-body">
                         </tbody>
                     </table>
                 </div>
@@ -584,7 +603,7 @@
                 <div class="mb-4 flex flex-col lg:flex-row gap-3">
                     <div class="relative flex-1">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
-                        <input type="text" id="cx-search" oninput="filterCX()" placeholder="Buscar por cliente, empresa o comentario..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-[#DEDEF9] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#472BEF] transition font-medium">
+                        <input type="text" id="cx-search" oninput="filterCX()" placeholder="Buscar por cliente, empresa o comentario..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-[#DEDEF9] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#472BEF] transition font-medium font-bold">
                     </div>
                     
                     <div class="flex flex-wrap gap-2">
@@ -616,10 +635,11 @@
                                 <th class="py-3 px-4">Equipo Ticket</th>
                                 <th class="py-3 px-4 text-center">Calificación CX</th>
                                 <th class="py-3 px-4">Homologación</th>
-                                <th class="py-3 px-4 rounded-r-lg">Comentario</th>
+                                <th class="py-3 px-4">Comentario</th>
+                                <th class="py-3 px-4 rounded-r-lg text-center">Link</th>
                             </tr>
                         </thead>
-                        <tbody class="text-sm divide-y divide-slate-100" id="table-cx-body">
+                        <tbody class="text-sm divide-y divide-[#DEDEF9]" id="table-cx-body">
                         </tbody>
                     </table>
                 </div>
@@ -649,7 +669,7 @@
                 <div class="mb-4 flex flex-col lg:flex-row gap-3">
                     <div class="relative flex-1">
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
-                        <input type="text" id="wa-search" oninput="filterWA()" placeholder="Buscar por cliente, empresa o comentario..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-[#DEDEF9] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#472BEF] transition font-medium">
+                        <input type="text" id="wa-search" oninput="filterWA()" placeholder="Buscar por cliente, empresa o comentario..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-[#DEDEF9] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#472BEF] transition font-medium font-bold">
                     </div>
                     
                     <div class="flex flex-wrap gap-2">
@@ -671,20 +691,21 @@
                     </div>
                 </div>
 
-                <div class="overflow-x-auto border border-slate-100 rounded-xl custom-scrollbar">
+                <div class="overflow-x-auto border border-[#DEDEF9]/30 rounded-xl custom-scrollbar">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-200 text-xs font-bold text-[#525A72] bg-slate-50">
+                            <tr class="border-b border-[#DEDEF9] text-xs font-bold text-[#525A72] bg-slate-50">
                                 <th class="py-3.5 px-4 rounded-l-lg">Cliente</th>
                                 <th class="py-3.5 px-4">Empresa</th>
                                 <th class="py-3.5 px-4">Agente (Owner)</th>
                                 <th class="py-3.5 px-4 text-center">Calificación Base</th>
                                 <th class="py-3.5 px-4">Homologación</th>
                                 <th class="py-3.5 px-4">Equipo Ticket</th>
-                                <th class="py-3.5 px-4 rounded-r-lg">Comentarios</th>
+                                <th class="py-3.5 px-4">Comentarios</th>
+                                <th class="py-3.5 px-4 rounded-r-lg text-center">Link</th>
                             </tr>
                         </thead>
-                        <tbody class="text-sm divide-y divide-slate-100" id="table-wa-body">
+                        <tbody class="text-sm divide-y divide-[#DEDEF9]" id="table-wa-body">
                         </tbody>
                     </table>
                 </div>
@@ -692,6 +713,38 @@
         </div>
 
     </main>
+
+    <!-- Modal: Detalle de Comentarios Negativos por Asesor -->
+    <div id="negatives-modal" class="fixed inset-0 bg-[#001035]/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl border border-[#DEDEF9] shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-150">
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-[#DEDEF9] bg-[#001035] text-white flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-rose-500 rounded-lg text-white">
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm sm:text-base" id="modal-agent-name">Asesor</h4>
+                        <p class="text-[10px] text-[#DEDEF9] font-semibold tracking-wide">Comentarios Negativos Encontrados</p>
+                    </div>
+                </div>
+                <button onclick="closeAgentNegativesModal()" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1 bg-slate-50" id="modal-negatives-body">
+                <!-- Populated dynamically via JS -->
+            </div>
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-[#DEDEF9] bg-white flex justify-between items-center text-xs font-semibold text-[#525A72]">
+                <span id="modal-negatives-count">0 caso(s) de insatisfacción</span>
+                <button onclick="closeAgentNegativesModal()" class="px-4 py-2 bg-[#001035] hover:bg-[#472BEF] text-white rounded-xl transition font-bold text-xs">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-[#001035] border-t border-indigo-950 py-6 mt-12 text-[#DEDEF9]/80">
@@ -703,71 +756,90 @@
 
     <script>
         // ORIGINAL DATA SOURCE: Parsed and consolidated directly from 'CSAT - BD CSAT 31-05.csv' (Exactly 55 Records)
+        // Incorporated "survey_link" attribute in all records for manual insertion.
         const ORIGINAL_DATA = [
-            { id: "559838270034", name: "Nestor Castro", company: "DISTRIBUIDORA DE LA 40 S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "559838640708", name: "Nestor Castro", company: "DISTRIBUIDORA DE LA 40 S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "559838895925", name: "Nestor Castro", company: "DISTRIBUIDORA DE LA 40 S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "559418147871", name: "Frank Sanchez", company: "Sin información", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "excelente servicio muchas gracias!", owner: "Maria Alejandra Rodriguez Valencia", excluded: false },
-            { id: "559199543121", name: "Felipe Achury", company: "Viajero Hostels", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "Muy buena asesoría por parte de Cristian Restrepo", owner: "Mitchell Madrid Hernandez", excluded: false },
-            { id: "559175777075", name: "Ángela Riveros", company: "INDUSTRIAS EXPLORER INGENIERIA SOCIEDAD POR ACCIONES SIMPLIFICADA", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "559023007616", name: "Jorge Dario Duque", company: "FUNDACION OFTALMOLOGICA DE NARINO", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "La plataforma podria ser mas sencilla de navegar la IA para el analisis del consumo muy basica.", owner: "Mitchell Madrid Hernandez", excluded: false },
-            { id: "558858707815", name: "Shirley Lancheros", company: "CONDOMINIO GUADUALES DE LAS MERCEDES", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "EXCELENTE RESPUESTAS CONOCIMIENTO DEL TEMA", owner: "Daniela Rodríguez", excluded: false },
-            { id: "558739520048", name: "Alejandra Rey", company: "COLOMBIA TELECOMUNICACIONES S.A. E.S.P.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Concierge", comment: "", owner: "Jerenny Durango", excluded: false },
-            { id: "558710725407", name: "Jonathan Tobon", company: "PROVINCIA DE NUESTRA SEÑORA DE GRACIA DE COLOMBIA", channel: "correo", score: 1.0, score_text: "1.0", homologacion: "Insatisfecho", team: "Front", comment: "Realmente no le veo funcionalidad a pasarme de comercializador si los problemas de fondo son del operador de red y nunca tienen la solución en sus manos.", owner: "Rosaura Lopez", excluded: false },
-            { id: "558613560163", name: "Harold Carranza", company: "TERPEL EXPORTACIONES C.I S.A.S", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "me parece muy bueno el tiempo de respuesta", owner: "Rosaura Lopez", excluded: false },
-            { id: "558598701056", name: "Luis Miguel Cavadia", company: "ALMACEN FRIOCOSTA S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "Muchas gracias por la atencion oportuna y retroalimentacion de como iba el percanse que se presento", owner: "Rosaura Lopez", excluded: false },
-            { id: "558559903246", name: "Oscar Maya", company: "OSCAR MAYA RUIZ", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "Establecer información detallada de los procesos solicitados", owner: "Daniela Rodríguez", excluded: false },
-            { id: "557974172998", name: "Salim Jesus Radi Tarud", company: "FINCA PESCADO SAS", channel: "correo", score: 1.0, score_text: "1.0", homologacion: "Insatisfecho", team: "Concierge", comment: "Terrible, no ofrecen la informacion completa de una manera que pueda ser verificable sino se siente que solo estan ofreciendo mentiras.", owner: "Lina Cataño", excluded: false },
-            { id: "557896753801", name: "Oscar Maya", company: "OSCAR MAYA RUIZ", channel: "correo", score: 2.0, score_text: "2.0", homologacion: "Insatisfecho", team: "Front", comment: "sigo sin solucionar el problema con la telemetria del medidor que fue evidenciado por el tecnico en visita el 11 de Mayo de 2026. El valor del recibo se multiplico por cinco sin aumento de consumos.", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "558119183127", name: "Melissa Jiménez", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "De nuevo, la atencion de su call center es excelente, pero no pueden ofrecer medios de pago fisico, y cuando uno llega al banco los asesores dicen que uno no puede realizarlo.", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "558116531568", name: "Melissa Jiménez", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Su atencion al cliente es excelente, pero su servicio de pago es terrible. Deben mejorar los canales de pago", owner: "Mitchell Madrid Hernandez", excluded: false },
-            { id: "557599958160", name: "Yaddy Cortes - Contabilidad Agroko", company: "AGROKO S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Excelente asesoría mil gracias!", owner: "Andrés Felipe Peláez Álvarez", excluded: false },
-            { id: "556802747981", name: "Lorena Sensacion", company: "LEONEL ALBERTO ZULUAGA SALAZAR", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "556559367960", name: "Marta Luz Meza Abad Meza", company: "martha meza", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Muy bueno todo", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "556480095236", name: "Patricia Castañeda", company: "INALSA SISTEMAS COLOMBIA S A S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Solucion oportuna. Muchas Gracias", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "556455475060", name: "Pablo Rengifo", company: "ORECA GROUP S A S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Muy  satisfecho", owner: "Mitchell Madrid Hernandez", excluded: false },
-            { id: "556448773529", name: "Yohanny Largo", company: "FUNDACION SOCIAL COPSERVIR ¡UNIDOS TRANSFORMANDO VIDAS!", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "La atención es oportuna y efectiva", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "556316016736", name: "Vanat Sas Sas", company: "Vanat Sas", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "MUY INTERMITENTE CON MUCHOS CORTES DE ENERGIA", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "556327093945", name: "Vanat Sas Sas", company: "Vanat Sas", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "IA", comment: "EL SERVICIO A PRESENTADO MUCHA INTERMITENCIA Y EMOS TENIDO QUE PARAR LA PRODUCIION Y EMOS TENIDO MUCHO RETRASO Y PERDIDAS", owner: "Eva", excluded: false },
-            { id: "556216604255", name: "Salim Jesus Radi Tarud", company: "FINCA PESCADO SAS", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Son unas ratas", owner: "Lina Cataño", excluded: false },
-            { id: "556223690833", name: "Claudio Jose Rocha Alba", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "10/10", owner: "Mitchell Madrid Hernandez", excluded: false },
-            { id: "556215345154", name: "Andrea Marin", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Happy", owner: "Lina Cataño", excluded: false },
-            { id: "556220542834", name: "Patricia Castañeda", company: "INALSA SISTEMAS COLOMBIA S A S", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "Me estan cobrando unos condensadores que corresponden a un tercero y fuera de esto no me hacen la nota credito anulando la factura y emitiendo una nueva con el costo que corresponde nuestro servicio  y mañana se nos vence la luz y no nos han solucionado y esto es una empresa no nos podemos quedar sin el servicio", owner: "Maria Alejandra Rodriguez Valencia", excluded: false },
-            { id: "556031400831", name: "Jairo Moncayo", company: "CALZADO LA ELEGANCIA", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Las personas a cargo de cambios de comercializador cometen demasiados errores, no conocen el tema.", owner: "Vanessa Obando Romero", excluded: false },
-            { id: "555774574949", name: "Carlos Javier Camacho", company: "AVICOLA EL GUAMITO S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Daniela Rodríguez", excluded: false },
-            { id: "555752196536", name: "Maria Ruiz", company: "GRUPO MAYORISTA S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "gracias por la aclaracion", owner: "Maria Alejandra Rodriguez Valencia", excluded: false },
-            { id: "555741910193", name: "Vanat Sas Sas", company: "Vanat Sas", channel: "cx", score: null, score_text: "Neutral", homologacion: "Neutro", team: "Front", comment: "Loa canales de atencion son un poco lentos el whatsap es super demorado y llamadas no hay casi numeros par ala comunicacion", owner: "Maria Alejandra Rodriguez Valencia", excluded: false },
-            { id: "555679280779", name: "John Peña", company: "OPERADORA DE FRANQUICIAS DE COLOMBIA S A S - EN REORGANIZACION", channel: "cx", score: null, score_text: "Neutral", homologacion: "Neutro", team: "Concierge", comment: "Realmente se pierden los procesos de ahorros por servicios con BIA  con la rotación de personal y envían documentos para firma con cambios que tienen errores de cuenta o dirección que se debe devolver para corregir. Las propuestas de nuevos productos no vienen con ahorros proyectados como lo hacían antes, esto genera un valor agregado e información para proceder con una rápida autorización y firmas", owner: "Andrés Felipe Peláez Álvarez", excluded: false },
-            { id: "555667737617", name: "Lina María Blanco", company: "BKAL S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Excelente atención", owner: "Cristian Camilo Restrepo Pino", excluded: false },
-            { id: "555374790289", name: "Gabriela Franco", company: "ACUEDUCTOS Y ALCANTARILLADOS SOSTENIBLES A A S S A E S P", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "555072472588", name: "Juan José Gomez Garcia", company: "ESTRELLA ANDINA S A S", channel: "cx", score: null, score_text: "N/A", homologacion: "Excluido", team: "Front", comment: "Sin comentarios", owner: "Maria Fernanda Díaz Alvarez", excluded: true },
-            { id: "554542561025", name: "Mario Nelson", company: "FUNDACION SOCIAL COPSERVIR ¡UNIDOS TRANSFORMANDO VIDAS!", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "554510573365", name: "Mario Nelson", company: "D L K S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "IA", comment: "Happy", owner: "Eva", excluded: false },
-            { id: "554473731986", name: "Edimar Parra", company: "MERCAMIO S.A.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "IA", comment: "Happy", owner: "Natalia Buritica", excluded: false },
-            { id: "554454323123", name: "Veder Alvarez", company: "DIEZ MEDELLIN S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Todo muy bien, Vanessa una excelente asesora.", owner: "Vanessa Obando Romero", excluded: false },
-            { id: "554436585621", name: "Leidy", company: "FERRARI CRANE S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Atención oportuna", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "554144339308", name: "Libia Alesandra Latorre Florez", company: "ENECON S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "excelente servicio.", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "554115831569", name: "Manuel Sierra | Coordinación administrativa Sierra", company: "ORECA GROUP S A S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Excelente servicio.", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "553963365133", name: "Nat Buritica", company: "D L K S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Prueba", owner: "Maria Alejandra Rodriguez Valencia", excluded: false },
-            { id: "553885082552", name: "Cliente", company: "ENGINEERING EQUIPMENT RENTING S.A.S. EN LIQUIDACIÓN", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Happy", owner: "Cristina Franco Ramírez", excluded: false },
-            { id: "553851195479", name: "Jennifer Valbuena", company: "D L K S.A.S.", channel: "cx", score: null, score_text: "Neutral", homologacion: "Neutro", team: "Front", comment: "Esperando una respuesta clara a lo solicitado, ya que la que me compartieron técnicamente no entiendo el alza en el consumo", owner: "Maria Alejandra Rodriguez Valencia", excluded: false },
-            { id: "553474950682", name: "Cliente", company: "Inveral SAS", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Pues realmente no hubo solución simplemente debemos hacer el pago tal cual lo indique la factura, asi sea un incremento demasiado representativo teniendo en cuenta que nuestra operación mensual es igual mes tras mes.", owner: "Jerenny Durango", excluded: false },
-            { id: "553484368401", name: "Hector Rivera", company: "AXIONLOG SAS", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "No hay respuestas del asesor", owner: "Maria Angelica Espinel", excluded: false },
-            { id: "554919977802", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Neutro", homologacion: "Neutro", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false },
-            { id: "554909385627", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false },
-            { id: "554452152690", name: "Cliente", company: "D L K S.A.S.", channel: "whatsapp", score: null, score_text: "Insatisfecho", homologacion: "Insatisfecho", team: "Prueba", comment: "Sin comentarios", owner: "Eva", excluded: false },
-            { id: "554201431317", name: "Edimar Parra", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false },
-            { id: "554174504290", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false },
-            { id: "553825398097", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false }
+            { id: "559838270034", name: "Nestor Castro", company: "DISTRIBUIDORA DE LA 40 S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "559838640708", name: "Nestor Castro", company: "DISTRIBUIDORA DE LA 40 S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "559838895925", name: "Nestor Castro", company: "DISTRIBUIDORA DE LA 40 S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "559418147871", name: "Frank Sanchez", company: "Sin información", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "excelente servicio muchas gracias!", owner: "Maria Alejandra Rodriguez Valencia", excluded: false, survey_link: "" },
+            { id: "559199543121", name: "Felipe Achury", company: "Viajero Hostels", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "Muy buena asesoría por parte de Cristian Restrepo", owner: "Mitchell Madrid Hernandez", excluded: false, survey_link: "" },
+            { id: "559175777075", name: "Ángela Riveros", company: "INDUSTRIAS EXPLORER INGENIERIA SOCIEDAD POR ACCIONES SIMPLIFICADA", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "559023007616", name: "Jorge Dario Duque", company: "FUNDACION OFTALMOLOGICA DE NARINO", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "La plataforma podria ser mas sencilla de navegar la IA para el analisis del consumo muy basica.", owner: "Mitchell Madrid Hernandez", excluded: false, survey_link: "" },
+            { id: "558858707815", name: "Shirley Lancheros", company: "CONDOMINIO GUADUALES DE LAS MERCEDES", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "EXCELENTE RESPUESTAS CONOCIMIENTO DEL TEMA", owner: "Daniela Rodríguez", excluded: false, survey_link: "" },
+            { id: "558739520048", name: "Alejandra Rey", company: "COLOMBIA TELECOMUNICACIONES S.A. E.S.P.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Concierge", comment: "", owner: "Jerenny Durango", excluded: false, survey_link: "" },
+            { id: "558710725407", name: "Jonathan Tobon", company: "PROVINCIA DE NUESTRA SEÑORA DE GRACIA DE COLOMBIA", channel: "correo", score: 1.0, score_text: "1.0", homologacion: "Insatisfecho", team: "Front", comment: "Realmente no le veo funcionalidad a pasarme de comercializador si los problemas de fondo son del operador de red y nunca tienen la solución en sus manos.", owner: "Rosaura Lopez", excluded: false, survey_link: "" },
+            { id: "558613560163", name: "Harold Carranza", company: "TERPEL EXPORTACIONES C.I S.A.S", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "me parece muy bueno el tiempo de respuesta", owner: "Rosaura Lopez", excluded: false, survey_link: "" },
+            { id: "558598701056", name: "Luis Miguel Cavadia", company: "ALMACEN FRIOCOSTA S.A.S.", channel: "correo", score: 5.0, score_text: "5.0", homologacion: "Satisfecho", team: "Front", comment: "Muchas gracias por la atencion oportuna y retroalimentacion de como iba el percanse que se presento", owner: "Rosaura Lopez", excluded: false, survey_link: "" },
+            { id: "558559903246", name: "Oscar Maya", company: "OSCAR MAYA RUIZ", channel: "correo", score: 4.0, score_text: "4.0", homologacion: "Satisfecho", team: "Front", comment: "Establecer información detallada de los procesos solicitados", owner: "Daniela Rodríguez", excluded: false, survey_link: "" },
+            { id: "557974172998", name: "Salim Jesus Radi Tarud", company: "FINCA PESCADO SAS", channel: "correo", score: 1.0, score_text: "1.0", homologacion: "Insatisfecho", team: "Concierge", comment: "Terrible, no ofrecen la informacion completa de una manera que pueda ser verificable sino se siente que solo estan ofreciendo mentiras.", owner: "Lina Cataño", excluded: false, survey_link: "" },
+            { id: "557896753801", name: "Oscar Maya", company: "OSCAR MAYA RUIZ", channel: "correo", score: 2.0, score_text: "2.0", homologacion: "Insatisfecho", team: "Front", comment: "sigo sin solucionar el problema con la telemetria del medidor que fue evidenciado por el tecnico en visita el 11 de Mayo de 2026. El valor del recibo se multiplico por cinco sin aumento de consumos.", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "558119183127", name: "Melissa Jiménez", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "De nuevo, la atencion de su call center es excelente, pero no pueden ofrecer medios de pago fisico, y cuando uno llega al banco los asesores dicen que uno no puede realizarlo.", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "558116531568", name: "Melissa Jiménez", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Su atencion al cliente es excelente, pero su servicio de pago es terrible. Deben mejorar los canales de pago", owner: "Mitchell Madrid Hernandez", excluded: false, survey_link: "" },
+            { id: "557599958160", name: "Yaddy Cortes - Contabilidad Agroko", company: "AGROKO S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Excelente asesoría mil gracias!", owner: "Andrés Felipe Peláez Álvarez", excluded: false, survey_link: "" },
+            { id: "556802747981", name: "Lorena Sensacion", company: "LEONEL ALBERTO ZULUAGA SALAZAR", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "556559367960", name: "Marta Luz Meza Abad Meza", company: "martha meza", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Muy bueno todo", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "556480095236", name: "Patricia Castañeda", company: "INALSA SISTEMAS COLOMBIA S A S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Solucion oportuna. Muchas Gracias", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "556455475060", name: "Pablo Rengifo", company: "ORECA GROUP S A S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Muy  satisfecho", owner: "Mitchell Madrid Hernandez", excluded: false, survey_link: "" },
+            { id: "556448773529", name: "Yohanny Largo", company: "FUNDACION SOCIAL COPSERVIR ¡UNIDOS TRANSFORMANDO VIDAS!", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "La atención es oportuna y efectiva", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "556316016736", name: "Vanat Sas Sas", company: "Vanat Sas", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "MUY INTERMITENTE CON MUCHOS CORTES DE ENERGIA", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "556327093945", name: "Vanat Sas Sas", company: "Vanat Sas", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "IA", comment: "EL SERVICIO A PRESENTADO MUCHA INTERMITENCIA Y EMOS TEN QUE PARAR LA PRODUCIION Y EMOS TENIDO MUCHO RETRASO Y PERDIDAS", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "556216604255", name: "Salim Jesus Radi Tarud", company: "FINCA PESCADO SAS", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Son unas ratas", owner: "Lina Cataño", excluded: false, survey_link: "" },
+            { id: "556223690833", name: "Claudio Jose Rocha Alba", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "10/10", owner: "Mitchell Madrid Hernandez", excluded: false, survey_link: "" },
+            { id: "556215345154", name: "Andrea Marin", company: "Sin información", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Happy", owner: "Lina Cataño", excluded: false, survey_link: "" },
+            { id: "556220542834", name: "Patricia Castañeda", company: "INALSA SISTEMAS COLOMBIA S A S", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "Me estan cobrando unos condensadores que corresponden a un tercero y fuera de esto no me hacen la nota credito anulando la factura y emitiendo una nueva con el costo que corresponde nuestro servicio  y mañana se nos vence la luz y no nos han solucionado y esto es una empresa no nos podemos quedar sin el servicio", owner: "Maria Alejandra Rodriguez Valencia", excluded: false, survey_link: "" },
+            { id: "556031400831", name: "Jairo Moncayo", company: "CALZADO LA ELEGANCIA", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Las personas a cargo de cambios de comercializador cometen demasiados errores, no conocen el tema.", owner: "Vanessa Obando Romero", excluded: false, survey_link: "" },
+            { id: "555774574949", name: "Carlos Javier Camacho", company: "AVICOLA EL GUAMITO S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Daniela Rodríguez", excluded: false, survey_link: "" },
+            { id: "555752196536", name: "Maria Ruiz", company: "GRUPO MAYORISTA S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "gracias por la aclaracion", owner: "Maria Alejandra Rodriguez Valencia", excluded: false, survey_link: "" },
+            { id: "555741910193", name: "Vanat Sas Sas", company: "Vanat Sas", channel: "cx", score: null, score_text: "Neutral", homologacion: "Neutro", team: "Front", comment: "Loa canales de atencion son un poco lentos el whatsap es super demorado y llamadas no hay casi numeros par ala comunicacion", owner: "Maria Alejandra Rodriguez Valencia", excluded: false, survey_link: "" },
+            { id: "555679280779", name: "John Peña", company: "OPERADORA DE FRANQUICIAS DE COLOMBIA S A S - EN REORGANIZACION", channel: "cx", score: null, score_text: "Neutral", homologacion: "Neutro", team: "Concierge", comment: "Realmente se pierden los procesos de ahorros por servicios con BIA  con la rotación de personal y envían documentos para firma con cambios que tienen errores de cuenta o dirección que se debe devolver para corregir. Las propuestas de nuevos productos no vienen con ahorros proyectados como lo hacían antes, esto genera un valor agregado e información para proceder con una rápida autorización y firmas", owner: "Andrés Felipe Peláez Álvarez", excluded: false, survey_link: "" },
+            { id: "555667737617", name: "Lina María Blanco", company: "BKAL S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Excelente atención", owner: "Cristian Camilo Restrepo Pino", excluded: false, survey_link: "" },
+            { id: "555374790289", name: "Gabriela Franco", company: "ACUEDUCTOS Y ALCANTARILLADOS SOSTENIBLES A A S S A E S P", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "555072472588", name: "Juan José Gomez Garcia", company: "ESTRELLA ANDINA S A S", channel: "cx", score: null, score_text: "N/A", homologacion: "Excluido", team: "Front", comment: "Sin comentarios", owner: "Maria Fernanda Díaz Alvarez", excluded: true, survey_link: "" },
+            { id: "554542561025", name: "Mario Nelson", company: "FUNDACION SOCIAL COPSERVIR ¡UNIDOS TRANSFORMANDO VIDAS!", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Happy", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "554510573365", name: "Mario Nelson", company: "D L K S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "IA", comment: "Happy", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "554473731986", name: "Edimar Parra", company: "MERCAMIO S.A.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "IA", comment: "Happy", owner: "Natalia Buritica", excluded: false, survey_link: "" },
+            { id: "554454323123", name: "Veder Alvarez", company: "DIEZ MEDELLIN S.A.S", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Todo muy bien, Vanessa una excelente asesora.", owner: "Vanessa Obando Romero", excluded: false, survey_link: "" },
+            { id: "554436585621", name: "Leidy", company: "FERRARI CRANE S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Atención oportuna", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "554144339308", name: "Libia Alesandra Latorre Florez", company: "ENECON S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "excelente servicio.", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "554115831569", name: "Manuel Sierra | Coordinación administrativa Sierra", channel: "cx", company: "ORECA GROUP S A S", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Excelente servicio.", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "553963365133", name: "Nat Buritica", company: "D L K S.A.S.", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Front", comment: "Prueba", owner: "Maria Alejandra Rodriguez Valencia", excluded: false, survey_link: "" },
+            { id: "553885082552", name: "Cliente", company: "ENGINEERING EQUIPMENT RENTING S.A.S. EN LIQUIDACIÓN", channel: "cx", score: null, score_text: "Happy", homologacion: "Satisfecho", team: "Concierge", comment: "Happy", owner: "Cristina Franco Ramírez", excluded: false, survey_link: "" },
+            { id: "553851195479", name: "Jennifer Valbuena", company: "D L K S.A.S.", channel: "cx", score: null, score_text: "Neutral", homologacion: "Neutro", team: "Front", comment: "Esperando una respuesta clara a lo solicitado, ya que la que me compartieron técnicamente no entiendo el alza en el consumo", owner: "Maria Alejandra Rodriguez Valencia", excluded: false, survey_link: "" },
+            { id: "553474950682", name: "Cliente", company: "Inveral SAS", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Concierge", comment: "Pues realmente no hubo solución simplemente debemos hacer el pago tal cual lo indique la factura, asi sea un incremento demasiado representativo teniendo en cuenta que nuestra operación mensual es igual mes tras mes.", owner: "Jerenny Durango", excluded: false, survey_link: "" },
+            { id: "553484368401", name: "Hector Rivera", company: "AXIONLOG SAS", channel: "cx", score: null, score_text: "Unhappy", homologacion: "Insatisfecho", team: "Front", comment: "No hay respuestas del asesor", owner: "Maria Angelica Espinel", excluded: false, survey_link: "" },
+            { id: "554919977802", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Neutro", homologacion: "Neutro", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "554909385627", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "554452152690", name: "Cliente", company: "D L K S.A.S.", channel: "whatsapp", score: null, score_text: "Insatisfecho", homologacion: "Insatisfecho", team: "Prueba", comment: "Sin comentarios", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "554201431317", name: "Edimar Parra", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "554174504290", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false, survey_link: "" },
+            { id: "553825398097", name: "Cliente", company: "Sin información", channel: "whatsapp", score: null, score_text: "Satisfecho", homologacion: "Satisfecho", team: "Sin equipo", comment: "Sin comentarios", owner: "Eva", excluded: false, survey_link: "" }
         ];
 
-        // Global DB & Sort variables
+        // Global DB variables
         let surveysDB = [...ORIGINAL_DATA];
-        let currentAgentSort = 'csat'; // Default sort 'csat' or 'volume'
 
         // Load everything at startup
         window.onload = function() {
             lucide.createIcons();
+            
+            // INTUITION: Restore any manually typed links from the browser's localStorage if they exist
+            const savedLinks = localStorage.getItem("bia_csat_survey_links");
+            if (savedLinks) {
+                try {
+                    const linksMap = JSON.parse(savedLinks);
+                    ORIGINAL_DATA.forEach(r => {
+                        if (linksMap[r.id] !== undefined) {
+                            r.survey_link = linksMap[r.id];
+                        }
+                    });
+                } catch (e) {
+                    console.error("Error al restaurar enlaces guardados en caché:", e);
+                }
+            }
+            
+            // Sync surveysDB with ORIGINAL_DATA
+            surveysDB = [...ORIGINAL_DATA];
+            
             calculateAllMetrics();
             renderTables();
         }
@@ -809,6 +881,7 @@
             }
         }
 
+        // Team Badge Generator
         function getTeamBadge(team) {
             const name = team ? team.toUpperCase().trim() : 'SIN EQUIPO';
             let colorClasses = "bg-slate-100 text-slate-700 border-slate-200";
@@ -851,7 +924,7 @@
             document.getElementById("pb-dist-sat").style.width = `${satPct}%`;
             document.getElementById("pb-dist-neu").style.width = `${neuPct}%`;
             document.getElementById("pb-dist-ins").style.width = `${insPct}%`;
-            document.getElementById("dist-total-msg").innerText = `* Muestra válida: ${total} encuestas analizadas in tiempo real.`;
+            document.getElementById("dist-total-msg").innerText = `* Muestra válida: ${total} encuestas analizadas en tiempo real.`;
 
             // Calculando métricas específicas de canales
             calculateChannelMetrics("correo", "card-csat-correo", "pb-correo-sat", "pb-correo-neu", "pb-correo-ins", "stat-correo-sat", "stat-correo-neu", "stat-correo-ins", "badge-correo-csat", "badge-correo-total");
@@ -866,7 +939,7 @@
             calculateTeamMetrics("Sin equipo", "team-none-csat", "team-none-stats");
             document.getElementById("team-total-count").innerText = `Total: ${total} encuestas homologadas`;
 
-            // Calcular y renderizar el Ranking por Agente con Buscador integrado
+            // Calcular y renderizar los dos rankings paralelos simultáneamente
             calculateAgentMetrics();
 
             // Populate Negative Comments / Unhappy Feedback Loop
@@ -913,37 +986,25 @@
             document.getElementById(csatId).innerText = `${csatVal}%`;
             document.getElementById(statsId).innerHTML = `
                 <strong>${total}</strong> encuestas:<br>
-                <span class="text-emerald-600 font-bold">${sat} Sat.</span> / <span class="text-amber-500 font-bold">${neu} Neut.</span> / <span class="text-rose-500 font-bold">${ins} Insat.</span>
+                <span class="text-[#08DDBC] font-black">${sat} Sat.</span> / <span class="text-amber-500 font-bold">${neu} Neut.</span> / <span class="text-rose-500 font-bold">${ins} Insat.</span>
             `;
         }
 
-        // Switch sorting mode for agent ranking
-        function changeAgentSort(mode) {
-            currentAgentSort = mode;
-            const btnCsat = document.getElementById("btn-sort-csat");
-            const btnVolume = document.getElementById("btn-sort-volume");
-            
-            if (mode === 'csat') {
-                btnCsat.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 flex items-center gap-1 bg-[#472BEF] text-white shadow-sm";
-                btnVolume.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 flex items-center gap-1 text-[#525A72] hover:text-[#001035]";
-            } else {
-                btnVolume.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 flex items-center gap-1 bg-[#472BEF] text-white shadow-sm";
-                btnCsat.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 flex items-center gap-1 text-[#525A72] hover:text-[#001035]";
-            }
-            calculateAgentMetrics();
-        }
-
-        // Dynamic and Complete Agent Ranking Logic (Supports dual sorting by CSAT or Volume)
+        // Dynamic Dual Agent Rankings Renderer (Generates both lists simultaneously - FRONT & CONCIERGE)
         function calculateAgentMetrics() {
             const activeSurveys = surveysDB.filter(r => !r.excluded);
             const searchQuery = document.getElementById("agent-search")?.value.toLowerCase() || "";
             const agentMap = {};
 
+            // Group data by Agent
             activeSurveys.forEach(row => {
                 const ownerName = row.owner ? row.owner.trim() : "Eva";
+                const team = row.team ? row.team.trim() : "Sin equipo";
+                
                 if (!agentMap[ownerName]) {
                     agentMap[ownerName] = {
                         name: ownerName,
+                        team: team, // Keep track of their active team mapping
                         total: 0,
                         satisfechos: 0,
                         neutros: 0,
@@ -956,94 +1017,104 @@
                 else if (row.homologacion === "Insatisfecho") agentMap[ownerName].insatisfechos++;
             });
 
-            let agentsList = Object.values(agentMap).map(agent => {
+            // Calculate raw CSAT
+            let baseList = Object.values(agentMap).map(agent => {
                 agent.csat = agent.total > 0 ? parseFloat(((agent.satisfechos / agent.total) * 100).toFixed(1)) : 0.0;
                 return agent;
             });
 
-            // Filter by search query
+            // Filter lists based on the unified search bar
             if (searchQuery.trim() !== "") {
-                agentsList = agentsList.filter(a => a.name.toLowerCase().includes(searchQuery));
+                baseList = baseList.filter(a => a.name.toLowerCase().includes(searchQuery));
             }
 
-            // Dual Sort condition
-            if (currentAgentSort === 'csat') {
-                agentsList.sort((a, b) => b.csat - a.csat || b.total - a.total);
-            } else {
-                agentsList.sort((a, b) => b.total - a.total || b.csat - a.csat);
-            }
+            // Segment list by active team
+            const frontAgents = baseList.filter(a => a.team.toLowerCase() === "front");
+            const conciergeAgents = baseList.filter(a => a.team.toLowerCase() === "concierge");
 
-            const container = document.getElementById("agent-ranking-container");
+            // Sort both lists by CSAT % descending as the primary criterion
+            frontAgents.sort((a, b) => b.csat - a.csat || b.total - a.total);
+            conciergeAgents.sort((a, b) => b.csat - a.csat || b.total - a.total);
+
+            // Set summaries labels
+            document.getElementById("front-team-summary-label").innerText = `${frontAgents.length} asesores activos`;
+            document.getElementById("concierge-team-summary-label").innerText = `${conciergeAgents.length} asesores activos`;
+
+            // Render Both containers
+            renderRankingList(frontAgents, "front-team-container", "front");
+            renderRankingList(conciergeAgents, "concierge-team-container", "concierge");
+        }
+
+        // Dynamic helper to render one specific ranking stream (With direct access to negatives)
+        function renderRankingList(list, containerId, teamCode) {
+            const container = document.getElementById(containerId);
             if (!container) return;
             container.innerHTML = "";
 
-            if (agentsList.length === 0) {
+            if (list.length === 0) {
                 container.innerHTML = `
-                    <div class="py-8 text-center text-slate-400 font-medium w-full">
-                        No se encontraron asesores con el término de búsqueda ingresado.
+                    <div class="py-8 text-center text-slate-400 font-medium">
+                        No se encontraron asesores.
                     </div>
                 `;
                 return;
             }
 
-            agentsList.forEach((agent, idx) => {
+            list.forEach((agent, idx) => {
                 const rank = idx + 1;
                 let medalColor = "bg-slate-100 text-slate-600 border-slate-200";
                 let trophyIcon = "";
                 
-                if (rank === 1 && searchQuery === "") {
-                    medalColor = "bg-[#08DDBC]/10 text-[#001035] border-[#08DDBC]/30 font-extrabold ring-1 ring-[#08DDBC]";
+                // Medals for top 3
+                if (rank === 1) {
+                    medalColor = "bg-[#08DDBC]/15 text-[#001035] border-[#08DDBC]/30 font-extrabold ring-1 ring-[#08DDBC]/50";
                     trophyIcon = `<i data-lucide="trophy" class="w-4 h-4 text-emerald-600"></i>`;
-                } else if (rank === 2 && searchQuery === "") {
+                } else if (rank === 2) {
                     medalColor = "bg-[#472BEF]/10 text-[#472BEF] border-[#472BEF]/20 font-bold";
                     trophyIcon = `<i data-lucide="award" class="w-4 h-4 text-[#472BEF]"></i>`;
-                } else if (rank === 3 && searchQuery === "") {
+                } else if (rank === 3) {
                     medalColor = "bg-slate-100 text-slate-800 border-slate-200 font-bold";
                     trophyIcon = `<i data-lucide="award" class="w-4 h-4 text-slate-600"></i>`;
                 }
 
-                const isCsatSort = currentAgentSort === 'csat';
-                const csatHighlight = isCsatSort ? "text-xl sm:text-2xl font-black text-[#472BEF]" : "text-base font-bold text-slate-400";
-                const totalHighlight = !isCsatSort ? "text-xl sm:text-2xl font-black text-[#472BEF]" : "text-base font-bold text-slate-400";
+                // Generate Alert Pill for negative feedback directly on the card
+                let alertButton = "";
+                if (agent.insatisfechos > 0) {
+                    alertButton = `
+                        <button onclick="openAgentNegativesModal('${agent.name}')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-[9px] font-black tracking-wide transition-all mt-1.5 self-start shadow-sm active:scale-95">
+                            <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-rose-500"></i> ${agent.insatisfechos} Negativa(s)
+                        </button>
+                    `;
+                }
 
                 container.innerHTML += `
-                    <div class="bg-slate-50 border border-[#DEDEF9] p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#472BEF]/30 hover:bg-slate-100/30 transition-all duration-200">
+                    <div class="bg-white border border-[#DEDEF9] p-3.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#472BEF]/25 hover:bg-slate-50/50 transition-all duration-200 shadow-sm">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold border text-sm shadow-sm ${medalColor}">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold border text-xs shadow-sm ${medalColor}">
                                 ${trophyIcon ? trophyIcon : `#${rank}`}
                             </div>
                             <div>
-                                <span class="font-extrabold text-[#001035] text-sm block">${agent.name}</span>
-                                <p class="text-[10px] text-[#525A72] font-semibold mt-0.5">Responsable de Gestión (Ticket Owner)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex-1 max-w-md">
-                            <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-[#525A72]">Distribución de Casos</span>
-                                <span class="font-black text-[#001035]">
-                                    <span class="text-emerald-600">${agent.satisfechos} Sat</span> / 
-                                    <span class="text-amber-500">${agent.neutros} Neu</span> / 
-                                    <span class="text-rose-500">${agent.insatisfechos} Ins</span> 
-                                    (<span class="${isCsatSort ? 'text-[#525A72]' : 'text-[#472BEF] font-bold'}" >${agent.total} casos</span>)
-                                </span>
-                            </div>
-                            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
-                                <div class="bg-[#08DDBC] h-full" style="width: ${(agent.satisfechos/agent.total)*100}%"></div>
-                                <div class="bg-amber-400 h-full" style="width: ${(agent.neutros/agent.total)*100}%"></div>
-                                <div class="bg-rose-500 h-full" style="width: ${(agent.insatisfechos/agent.total)*100}%"></div>
+                                <span class="font-extrabold text-[#001035] text-xs sm:text-sm block">${agent.name}</span>
+                                <div class="flex flex-wrap items-center gap-2 mt-1">
+                                    <div class="w-24 bg-slate-100 h-1.5 rounded-full overflow-hidden flex self-center">
+                                        <div class="bg-[#08DDBC] h-full" style="width: ${(agent.satisfechos/agent.total)*100}%"></div>
+                                        <div class="bg-amber-400 h-full" style="width: ${(agent.neutros/agent.total)*100}%"></div>
+                                        <div class="bg-rose-500 h-full" style="width: ${(agent.insatisfechos/agent.total)*100}%"></div>
+                                    </div>
+                                    ${alertButton}
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Stacked stats highlighting the current sort mode -->
-                        <div class="text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end min-w-[140px] gap-2 md:gap-1">
-                            <div class="text-left md:text-right">
-                                <div class="${csatHighlight}">${agent.csat}%</div>
-                                <div class="text-[9px] text-[#525A72] font-bold uppercase tracking-wider">CSAT ASESOR</div>
+                        <!-- Side stats breakdown within the advisor card -->
+                        <div class="flex items-center justify-between sm:justify-end gap-6 border-t border-slate-100 pt-2 sm:border-0 sm:pt-0">
+                            <div class="text-left sm:text-right">
+                                <div class="text-xl font-black text-[#472BEF]">${agent.csat}%</div>
+                                <div class="text-[8px] text-[#525A72] font-black uppercase tracking-wider">CSAT</div>
                             </div>
-                            <div class="md:mt-1 border-l md:border-l-0 md:border-t border-[#DEDEF9] pl-3 md:pl-0 md:pt-1 text-left md:text-right">
-                                <div class="${totalHighlight}">${agent.total}</div>
-                                <div class="text-[9px] text-[#525A72] font-bold uppercase tracking-wider">ENCUESTAS</div>
+                            <div class="border-l border-slate-200 pl-4 text-left sm:text-right">
+                                <div class="text-xl font-black text-[#001035]">${agent.total}</div>
+                                <div class="text-[8px] text-[#525A72] font-black uppercase tracking-wider">Tickets</div>
                             </div>
                         </div>
                     </div>
@@ -1052,7 +1123,173 @@
             lucide.createIcons();
         }
 
-        // Populates unhappy feedbacks loop dynamically at bottom (Detractors Warnings)
+        // Live input trigger for inline manual link edits
+        function enableLinkEdit(recordId, context) {
+            const containerId = context === 'bottom' ? `bottom-link-container-${recordId}` : (context === 'modal' ? `link-container-${recordId}` : `table-link-container-${recordId}`);
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const rec = surveysDB.find(r => r.id === recordId);
+            const currentLink = rec ? (rec.survey_link || "") : "";
+            
+            container.innerHTML = `
+                <div class="flex items-center gap-1 w-full max-w-[210px] justify-center">
+                    <input type="text" id="input-link-${context}-${recordId}" value="${currentLink}" placeholder="Pegar URL..." class="w-24 px-1.5 py-0.5 text-[9px] border border-[#DEDEF9] rounded focus:outline-none focus:ring-1 focus:ring-[#472BEF] font-semibold text-[#001035] bg-white">
+                    <button onclick="saveSurveyLink('${recordId}', '${context}')" class="px-1.5 py-0.5 bg-[#08DDBC] hover:bg-emerald-400 text-[#001035] text-[9px] font-black rounded transition">
+                        Ok
+                    </button>
+                    <button onclick="cancelLinkEdit('${recordId}', '${context}')" class="px-1 text-slate-400 hover:text-rose-500 text-[10px] font-black transition">
+                        X
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // Saves and propagates manual link changes
+        function saveSurveyLink(recordId, context) {
+            const input = document.getElementById(`input-link-${context}-${recordId}`);
+            const newLink = input ? input.value.trim() : "";
+            
+            // Update in active surveysDB
+            const rec = surveysDB.find(r => r.id === recordId);
+            if (rec) {
+                rec.survey_link = newLink;
+            }
+            
+            // Mirror change inside ORIGINAL_DATA structure
+            const origRec = ORIGINAL_DATA.find(r => r.id === recordId);
+            if (origRec) {
+                origRec.survey_link = newLink;
+            }
+            
+            // SAVE PERMANENTLY IN THE BROWSER CACHE (localStorage) so it is recovered automatically on reload
+            const linksMap = {};
+            ORIGINAL_DATA.forEach(r => {
+                if (r.survey_link && r.survey_link.trim() !== "") {
+                    linksMap[r.id] = r.survey_link;
+                }
+            });
+            localStorage.setItem("bia_csat_survey_links", JSON.stringify(linksMap));
+            
+            // Recalculate metrics and re-trigger feed updates
+            calculateAllMetrics();
+            
+            // Keep modal focus if active
+            const modalOpen = !document.getElementById("negatives-modal").classList.contains("hidden");
+            if (modalOpen) {
+                const modalAgentName = document.getElementById("modal-agent-name").innerText;
+                openAgentNegativesModal(modalAgentName);
+            }
+            
+            renderTables(); // Update details tables
+        }
+
+        function cancelLinkEdit(recordId, context) {
+            calculateAllMetrics(); // Reload view states
+            const modalOpen = !document.getElementById("negatives-modal").classList.contains("hidden");
+            if (modalOpen) {
+                const modalAgentName = document.getElementById("modal-agent-name").innerText;
+                openAgentNegativesModal(modalAgentName);
+            }
+            renderTables();
+        }
+
+        // Modal triggers for specific agent detractor audits (Displays Survey Link status)
+        function openAgentNegativesModal(agentName) {
+            const modal = document.getElementById("negatives-modal");
+            const title = document.getElementById("modal-agent-name");
+            const body = document.getElementById("modal-negatives-body");
+            const footerCount = document.getElementById("modal-negatives-count");
+
+            title.innerText = agentName;
+            body.innerHTML = "";
+
+            // Find all negatives (Insatisfecho)
+            const agentNegatives = surveysDB.filter(r => 
+                !r.excluded && 
+                r.owner.trim() === agentName.trim() && 
+                r.homologacion.toLowerCase().trim() === "insatisfecho"
+            );
+
+            footerCount.innerText = `${agentNegatives.length} caso(s) de insatisfacción`;
+
+            if (agentNegatives.length === 0) {
+                body.innerHTML = `
+                    <div class="py-12 text-center text-[#525A72] font-medium">
+                        <i data-lucide="sparkles" class="w-12 h-12 text-[#08DDBC] mx-auto mb-3"></i>
+                        ¡Excelente desempeño! Este asesor no cuenta con registros negativos en este periodo.
+                    </div>
+                `;
+                modal.classList.remove("hidden");
+                lucide.createIcons();
+                return;
+            }
+
+            agentNegatives.forEach(r => {
+                const comment = r.comment.trim() ? `"${r.comment}"` : "El cliente no dejó comentarios escritos.";
+                
+                // Survey link action buttons / inputs
+                let linkButtonHtml = "";
+                if (r.survey_link && r.survey_link.trim() !== "") {
+                    linkButtonHtml = `
+                        <div class="flex items-center gap-1.5" id="link-container-${r.id}">
+                            <a href="${r.survey_link}" target="_blank" class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-black rounded border bg-[#472BEF]/10 text-[#472BEF] border-[#472BEF]/20 hover:bg-[#472BEF] hover:text-white transition-all duration-150 shadow-sm">
+                                <i data-lucide="external-link" class="w-3 h-3"></i> Ver Encuesta
+                            </a>
+                            <button onclick="enableLinkEdit('${r.id}', 'modal')" class="text-[9px] font-bold text-slate-400 hover:text-[#472BEF] transition-all">
+                                Editar
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    linkButtonHtml = `
+                        <div class="flex items-center gap-1.5" id="link-container-${r.id}">
+                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 text-[8px] font-bold">
+                                <i data-lucide="link-2" class="w-2.5 h-2.5"></i> Sin Link
+                            </span>
+                            <button onclick="enableLinkEdit('${r.id}', 'modal')" class="text-[9px] font-black text-[#472BEF] hover:underline transition-all">
+                                + Agregar Link
+                            </button>
+                        </div>
+                    `;
+                }
+
+                body.innerHTML += `
+                    <div class="p-4 bg-white rounded-xl border border-rose-100 shadow-sm space-y-3 relative hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h5 class="text-xs font-black text-[#001035]">${r.name}</h5>
+                                <p class="text-[9px] text-[#525A72] font-bold uppercase tracking-wider">${r.company}</p>
+                            </div>
+                            <div class="flex flex-col items-end gap-1.5">
+                                <span class="text-[10px] bg-indigo-50 text-[#472BEF] px-2 py-0.5 rounded font-black uppercase tracking-wider border border-indigo-100">
+                                    ${r.team}
+                                </span>
+                                ${linkButtonHtml}
+                            </div>
+                        </div>
+                        <div class="text-xs text-rose-950 bg-rose-500/5 p-3 rounded-lg border border-rose-100/50 italic font-medium leading-relaxed">
+                            ${comment}
+                        </div>
+                        <div class="flex justify-between items-center text-[10px] text-[#525A72] font-semibold pt-1 border-t border-slate-100">
+                            <span>Canal: ${r.channel === "correo" ? "Correo" : r.channel === "cx" ? "CX" : "WhatsApp"}</span>
+                            <span>ID: #${r.id}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            modal.classList.remove("hidden");
+            lucide.createIcons();
+        }
+
+        // Close modal
+        function closeAgentNegativesModal() {
+            document.getElementById("negatives-modal").classList.add("hidden");
+        }
+
+        // Populates unhappy feedbacks loop dynamically at bottom (Detractors Warnings with Survey Link support)
         function renderUnhappyFeedback() {
             const unhappy = surveysDB.filter(r => r.homologacion === "Insatisfecho" && !r.excluded && r.comment.trim() !== "");
             const container = document.getElementById("unhappy-feedback-container");
@@ -1069,6 +1306,31 @@
             }
 
             unhappy.forEach(r => {
+                let linkButtonHtml = "";
+                if (r.survey_link && r.survey_link.trim() !== "") {
+                    linkButtonHtml = `
+                        <div class="flex items-center gap-1.5" id="bottom-link-container-${r.id}">
+                            <a href="${r.survey_link}" target="_blank" class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-black rounded-lg border bg-[#472BEF]/15 text-[#472BEF] border-[#472BEF]/20 hover:bg-[#472BEF] hover:text-white transition-all duration-150 shadow-sm active:scale-95">
+                                <i data-lucide="external-link" class="w-3 h-3.5"></i> Link Encuesta
+                            </a>
+                            <button onclick="enableLinkEdit('${r.id}', 'bottom')" class="text-[9px] font-bold text-slate-400 hover:text-[#472BEF] transition-all">
+                                Editar
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    linkButtonHtml = `
+                        <div class="flex items-center gap-1.5" id="bottom-link-container-${r.id}">
+                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 text-[8px] font-bold">
+                                Sin Link
+                            </span>
+                            <button onclick="enableLinkEdit('${r.id}', 'bottom')" class="text-[9px] font-black text-[#472BEF] hover:underline transition-all">
+                                + Link
+                            </button>
+                        </div>
+                    `;
+                }
+
                 container.innerHTML += `
                     <div class="p-4 bg-white rounded-xl border border-rose-100 shadow-sm flex flex-col justify-between space-y-3 relative hover:shadow-md hover:border-rose-300 transition-all duration-200">
                         <span class="absolute top-3 right-3 text-[10px] bg-rose-50 text-rose-700 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider border border-rose-200/50">
@@ -1085,12 +1347,16 @@
                         </div>
                         
                         <div class="border-t border-slate-50 pt-2 flex justify-between items-center text-[10px] text-[#525A72]">
-                            <span class="font-bold text-slate-500">Agente: ${r.owner}</span>
-                            <span class="px-2 py-0.5 bg-rose-100 text-rose-800 rounded font-black text-[9px] uppercase tracking-wide">Detractor</span>
+                            <div class="flex flex-col gap-0.5">
+                                <span class="font-bold text-slate-500">Agente: ${r.owner}</span>
+                                <span class="px-1.5 py-0.5 bg-rose-100 text-rose-800 rounded font-black text-[9px] uppercase tracking-wide self-start mt-0.5">Detractor</span>
+                            </div>
+                            ${linkButtonHtml}
                         </div>
                     </div>
                 `;
             });
+            lucide.createIcons();
         }
 
         // Render Tables for detail panels
@@ -1100,7 +1366,35 @@
             renderWATable();
         }
 
-        // Correo Table Renderer (incorporating Montserrat and Bia design)
+        // Helper to generate Survey Link cells inside Tables (Satisfied surveys remain empty with "—")
+        function getTableSurveyLinkHtml(row) {
+            if (row.homologacion.trim() === "Satisfecho") {
+                return `<span class="text-slate-300 font-bold tracking-widest text-center block w-full">—</span>`;
+            }
+            
+            if (row.survey_link && row.survey_link.trim() !== "") {
+                return `
+                    <div class="flex items-center justify-center gap-2" id="table-link-container-${row.id}">
+                        <a href="${row.survey_link}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-[#472BEF]/10 text-[#472BEF] border border-[#472BEF]/20 hover:bg-[#472BEF] hover:text-white text-[10px] font-black transition-all duration-150">
+                            <i data-lucide="external-link" class="w-3 h-3"></i> Ver
+                        </a>
+                        <button onclick="enableLinkEdit('${row.id}', 'table')" class="text-[10px] text-slate-400 hover:text-[#472BEF] font-bold">
+                            Editar
+                        </button>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="flex items-center justify-center gap-1.5" id="table-link-container-${row.id}">
+                        <button onclick="enableLinkEdit('${row.id}', 'table')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-slate-50 hover:bg-[#472BEF]/10 text-[#472BEF] border border-[#DEDEF9] text-[10px] font-black transition-all duration-150">
+                            <i data-lucide="plus" class="w-3 h-3"></i> Link
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Correo Table Renderer (incorporating Link column and satisfied check)
         function renderCorreoTable() {
             const tbody = document.getElementById("table-correo-body");
             tbody.innerHTML = "";
@@ -1111,7 +1405,7 @@
                 const scoreColor = parseFloat(row.score) >= 4.0 ? 'bg-[#08DDBC]/10 text-emerald-800 border-[#08DDBC]/20' : (parseFloat(row.score) === 3.0 ? 'bg-amber-500/10 text-amber-800 border-amber-500/20' : 'bg-rose-500/10 text-rose-800 border-rose-500/20');
 
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50 transition">
+                    <tr class="hover:bg-slate-50/50 transition border-b border-[#DEDEF9]/30">
                         <td class="py-3.5 px-4 font-bold text-[#001035]">${row.name}</td>
                         <td class="py-3.5 px-4 text-[#525A72] text-xs font-bold max-w-[200px] truncate" title="${row.company}">${row.company || 'Sin información'}</td>
                         <td class="py-3.5 px-4"><span class="font-semibold text-slate-700 text-xs">${row.owner}</span></td>
@@ -1120,13 +1414,15 @@
                         </td>
                         <td class="py-3.5 px-4">${getClassificationBadge(row.homologacion)}</td>
                         <td class="py-3.5 px-4 text-center">${getTeamBadge(row.team)}</td>
-                        <td class="py-3.5 px-4 text-slate-600 font-medium italic text-xs max-w-[350px]" title="${row.comment}">${comment}</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-medium italic text-xs max-w-[320px] truncate" title="${row.comment}">${comment}</td>
+                        <td class="py-3.5 px-4 text-center min-w-[130px]">${getTableSurveyLinkHtml(row)}</td>
                     </tr>
                 `;
             });
+            lucide.createIcons();
         }
 
-        // CX Table Renderer (with filters and Montserrat details)
+        // CX Table Renderer (with filters, Link column, and satisfied check)
         function renderCXTable(filteredSurveys = null) {
             const tbody = document.getElementById("table-cx-body");
             tbody.innerHTML = "";
@@ -1134,7 +1430,7 @@
 
             cxData.forEach(row => {
                 const comment = row.comment ? row.comment : '<span class="text-slate-300">Sin comentarios</span>';
-                const rowStyle = row.excluded ? 'opacity-50 bg-slate-100/50 italic' : 'hover:bg-slate-50/50 transition';
+                const rowStyle = row.excluded ? 'opacity-50 bg-slate-100/50 italic border-b border-[#DEDEF9]/30' : 'hover:bg-slate-50/50 transition border-b border-[#DEDEF9]/30';
                 
                 tbody.innerHTML += `
                     <tr class="${rowStyle}">
@@ -1148,13 +1444,15 @@
                         <td class="py-3.5 px-4">
                             ${row.excluded ? '<span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-slate-200 text-slate-500 border border-slate-300">Excluido (Vacío)</span>' : getClassificationBadge(row.homologacion)}
                         </td>
-                        <td class="py-3.5 px-4 text-slate-600 font-medium text-xs max-w-[320px]" title="${row.comment}">${comment}</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-medium text-xs max-w-[280px] truncate" title="${row.comment}">${comment}</td>
+                        <td class="py-3.5 px-4 text-center min-w-[130px]">${getTableSurveyLinkHtml(row)}</td>
                     </tr>
                 `;
             });
+            lucide.createIcons();
         }
 
-        // WhatsApp Table Renderer (with filters)
+        // WhatsApp Table Renderer (with filters, Link column, and satisfied check)
         function renderWATable(filteredSurveys = null) {
             const tbody = document.getElementById("table-wa-body");
             tbody.innerHTML = "";
@@ -1163,17 +1461,19 @@
             waData.forEach(row => {
                 const comment = row.comment ? row.comment : '<span class="text-slate-300">Sin comentarios</span>';
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50 transition">
+                    <tr class="hover:bg-slate-50/50 transition border-b border-[#DEDEF9]/30">
                         <td class="py-4 px-4 font-bold text-[#001035]">${row.name || '<span class="text-slate-400">Anónimo</span>'}</td>
                         <td class="py-4 px-4 text-[#525A72] text-xs font-bold max-w-[200px] truncate" title="${row.company}">${row.company || 'Sin información'}</td>
                         <td class="py-4 px-4"><span class="font-semibold text-[#001035] text-xs">${row.owner}</span></td>
                         <td class="py-4 px-4 text-center font-extrabold text-[#525A72]">${row.score_text}</td>
                         <td class="py-4 px-4">${getClassificationBadge(row.homologacion)}</td>
                         <td class="py-4 px-4">${getTeamBadge(row.team)}</td>
-                        <td class="py-4 px-4 text-slate-600 text-xs font-medium max-w-[280px]" title="${row.comment}">${comment}</td>
+                        <td class="py-4 px-4 text-slate-600 text-xs font-medium max-w-[240px] truncate" title="${row.comment}">${comment}</td>
+                        <td class="py-4 px-4 text-center min-w-[130px]">${getTableSurveyLinkHtml(row)}</td>
                     </tr>
                 `;
             });
+            lucide.createIcons();
         }
 
         // Live filtration function for CX view
@@ -1214,6 +1514,35 @@
             });
 
             renderWATable(filtered);
+        }
+
+        // Function to export/download the updated HTML file with current links written permanently
+        function exportUpdatedHTML() {
+            try {
+                let outerHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+                
+                // Regex to find the ORIGINAL_DATA block and replace it
+                const regex = /const ORIGINAL_DATA = \[\s*[\s\S]*?\s*\];/;
+                
+                // Prepare the updated array data formatted nicely
+                const formattedData = 'const ORIGINAL_DATA = ' + JSON.stringify(ORIGINAL_DATA, null, 12) + ';';
+                
+                // Replace in the outerHTML string
+                let updatedHTML = outerHTML.replace(regex, formattedData);
+                
+                // Trigger download
+                const blob = new Blob([updatedHTML], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tablero_control_csat.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                alert('Ocurrió un error al intentar exportar los cambios: ' + err.message);
+            }
         }
     </script>
 </body>
